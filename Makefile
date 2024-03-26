@@ -7,14 +7,10 @@ cwd=$(shell pwd)
 run:
 	${wf}/bin/standalone.sh
 
-jboss-cli:
+wf-cli:
 	${wf}/bin/jboss-cli.sh
 
 deploy:
-	mvn clean install
-	${wf}/bin/standalone.sh
-
-update:
 	mvn clean install
 	${wf}/bin/jboss-cli.sh --connect --command="deploy ${cwd}/target/prueba.war --force"
 

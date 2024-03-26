@@ -5,13 +5,15 @@
          data source, this example data source is just for development and testing! -->
       <!-- The datasource is deployed as ${ds-deployment-location}, you
          can find it in the source at postgres_local-ds.xml -->
-      <jta-data-source>java:jboss/datasources/laboratorio</jta-data-source>
+      <jta-data-source>java:jboss/datasources/parcial1</jta-data-source>
+
+      <!-- aca vamos agregando las nuevas clases que vamos creando (que corresponden a las tablas en nuestra BD) -->
       <class>py.com.progweb.prueba.model.Persona</class>
+
       <properties>
          <property name="hibernate.id.new_generator_mappings" value="true"/>
          <property name="hibernate.show_sql" value="true" />
          <property name="hibernate.dialect" value="org.hibernate.dialect.PostgreSQLDialect"/>
-         
       </properties>
    </persistence-unit>
 </persistence>
