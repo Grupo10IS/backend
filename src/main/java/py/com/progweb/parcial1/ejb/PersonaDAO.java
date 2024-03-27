@@ -12,7 +12,7 @@ import javax.persistence.Query;
 
 import java.util.List;
 
-import py.com.progweb.persona.model.Persona;
+import py.com.progweb.parcial1.model.Persona;
 
 @Stateless
 public class PersonaDAO {
