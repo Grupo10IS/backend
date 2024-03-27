@@ -28,8 +28,7 @@ target/
 
 # editor files
 .settings/
-.classpath/
-.project/
-.factorypath/
-
+.classpath
+.project
+.factorypath
 .java-version

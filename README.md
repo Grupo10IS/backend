@@ -2,7 +2,7 @@
 
 - [Wildfly 18](https://drive.google.com/file/d/1YqprEej75ofErCmDE92nF7WkZh2xVEBa/view)
 - Postgresql
-- Java 8 (versiones posteriores son incompatibles)
+- Java 8 (versiones posteriores son incompatibles).
 - Maven
 
 # Preparacion
@@ -60,6 +60,8 @@ desplegar e inclusive actualizar la aplicacion con wildfly.
 Para ello es necesario que cree una variable de entorno llamada `WILDFLYPATH` que contenga la
 direccion de la carpeta donde descargo wildfly. Otra opcion es que modifique
 directamente la variable del mismo nombre dentro del Makefile.
+
+Si cuenta con otras versiones de java instaladas, le recomendamos que tambien modifique la variable `PATH` dentro del Makefile de ser necesario, apuntando a la direccion donde se encuentra su instalacion de JAVA 8.
 
 #### Comandos disponibles
 

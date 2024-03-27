@@ -3,6 +3,7 @@ WILDFLYPATH ?= $(error Please set the WILDFLYPATH environment variable)
 
 wf=${WILDFLYPATH}
 cwd=$(shell pwd)
+PATH:=/usr/lib/jvm/java-8-openjdk/bin/:$(PATH)
 
 # -- mvn fast utilities -- 
 package:
