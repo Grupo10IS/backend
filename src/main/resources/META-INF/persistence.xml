@@ -8,7 +8,7 @@
       <jta-data-source>java:jboss/datasources/parcial1</jta-data-source>
 
       <!-- aca vamos agregando las nuevas clases que vamos creando (que corresponden a las tablas en nuestra BD) -->
-      <class>py.com.progweb.prueba.model.Persona</class>
+      <class>py.com.progweb.parcial1.model.Persona</class>
 
       <properties>
          <property name="hibernate.id.new_generator_mappings" value="true"/>

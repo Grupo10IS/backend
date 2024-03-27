@@ -8,8 +8,8 @@ import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.Response;
 
-import py.com.progweb.prueba.ejb.PersonaDAO;
-import py.com.progweb.prueba.model.Persona;
+import py.com.progweb.persona.ejb.PersonaDAO;
+import py.com.progweb.persona.model.Persona;
 
 @Path("persona")
 @Consumes("application/json")
