@@ -1,4 +1,4 @@
-package py.com.progweb.prueba.model;
+package py.com.progweb.parcial1.model;
 
 import javax.persistence.Basic;
 import javax.persistence.Column;

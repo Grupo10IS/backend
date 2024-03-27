@@ -1,4 +1,4 @@
-package py.com.progweb.prueba.rest;
+package py.com.progweb.parcial1.rest;
 
 import javax.inject.Inject;
 import javax.ws.rs.Consumes;

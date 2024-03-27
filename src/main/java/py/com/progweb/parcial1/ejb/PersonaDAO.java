@@ -3,7 +3,7 @@ independiente a la arquitectura de la BD por debajo
 
 Transforma las entidades que recibimos del ORM y hacemos algo usando el widfly
 */
-package py.com.progweb.prueba.ejb;
+package py.com.progweb.parcial1.ejb;
 
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;

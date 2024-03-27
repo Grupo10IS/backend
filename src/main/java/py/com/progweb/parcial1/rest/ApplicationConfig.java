@@ -1,4 +1,4 @@
-package py.com.progweb.prueba.rest;
+package py.com.progweb.parcial1.rest;
 
 import javax.ws.rs.ApplicationPath;
 import javax.ws.rs.core.Application;
