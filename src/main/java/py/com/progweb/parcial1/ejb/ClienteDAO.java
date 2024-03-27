@@ -12,24 +12,24 @@ import javax.persistence.Query;
 
 import java.util.List;
 
-import py.com.progweb.parcial1.model.Persona;
+import py.com.progweb.parcial1.model.Cliente;
 
 @Stateless
-public class PersonaDAO {
+public class ClienteDAO {
     /*
      * El entity manager que se va a encargar de manejar los objetos por nosotros.
      * La unidad de persistencia le dice al entorno (wildfly) a cual bd apuntar.
      * Ver en el persistence.xml el nombre de la unidad de persistencia
      */
-    @PersistenceContext(unitName = "pruebaPU")
+    @PersistenceContext(unitName = "parcial1PU")
     private EntityManager em;
 
-    public void agregarPersona(Persona entidad) {
+    public void agregarPersona(Cliente entidad) {
         this.em.persist(entidad);
     }
 
-    public List<Persona> listaPersonas() {
+    public List<Cliente> listaPersonas() {
         Query q = this.em.createQuery("select p from Persona p");
-        return (List<Persona>) q.getResultList();
+        return (List<Cliente>) q.getResultList();
     }
 }
