@@ -1,6 +1,6 @@
  CREATE TABLE IF NOT EXISTS tipo_documento (
     id SERIAL PRIMARY KEY,
-    tipo varchar(20)
+    tipo varchar(20) NOT NULL
 );
 
 CREATE TABLE IF NOT EXISTS conceptos_uso_puntos (
@@ -26,9 +26,10 @@ CREATE TABLE IF NOT EXISTS cliente (
 
 CREATE TABLE IF NOT EXISTS reglas_asignacion_puntos (
     id SERIAL PRIMARY KEY,
-    limite_inferior NUMERIC,
-    limite_superior NUMERIC,
-    monto_equivalencia NUMERIC
+
+    limite_inferior NUMERIC NOT NULL,
+    limite_superior NUMERIC NOT NULL,
+    monto_equivalencia NUMERIC NOT NULL
 );
 
 CREATE TABLE IF NOT EXISTS vencimientos_puntos (
@@ -46,7 +47,7 @@ CREATE TABLE IF NOT EXISTS bolsa_puntos (
     fecha_caducidad DATE NOT NULL,
     puntaje_asignado INT NOT NULL,
     puntaje_utilizado INT DEFAULT 0,
-    saldo_puntos NUMERIC,
+    saldo_puntos NUMERIC DEFAULT 0,
     monto_operacion NUMERIC,
 
     CONSTRAINT fk_bolsa_cliente FOREIGN KEY(cliente_id) REFERENCES cliente(id)
@@ -65,11 +66,11 @@ CREATE TABLE IF NOT EXISTS puntos_usados (
 
 CREATE TABLE IF NOT EXISTS detalle_puntos_usados (
     id SERIAL PRIMARY KEY,
-    cabecera_id INT NOT NULL,
+    puntos_usados_id INT NOT NULL,
     bolsa_id INT NOT NULL,
 
     puntaje_utilizado INT NOT NULL,
 
-    CONSTRAINT fk_cabecera FOREIGN KEY(cabecera_id) REFERENCES puntos_usados(id),
+    CONSTRAINT fk_puntos_usados FOREIGN KEY(puntos_usados_id) REFERENCES puntos_usados(id),
     CONSTRAINT fk_bolsa FOREIGN KEY(bolsa_id) REFERENCES bolsa_puntos(id)
 );
