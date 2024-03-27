@@ -59,6 +59,6 @@ CREATE TABLE detalle_puntos_usados (
     cabecera_id INT NOT NULL,
     puntaje_utilizado INT NOT NULL,
     bolsa_id INT NOT NULL,
-    FOREIGN KEY (cabecera_id) REFERENCES UsoPuntosCabecera(id),
-    FOREIGN KEY (bolsa_id) REFERENCES BolsaPuntos(id)
+    FOREIGN KEY (cabecera_id) REFERENCES puntos_usados(id),
+    FOREIGN KEY (bolsa_id) REFERENCES bolsa_puntos(id)
 );
