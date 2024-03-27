@@ -24,6 +24,12 @@ public class PersonaRest {
         return Response.ok(this.personaDAO.listaPersonas()).build();
     }
 
+    @GET
+    @Path("/hola")
+    public Response hola() {
+        return Response.ok("Hola").build();
+    }
+
     @POST
     @Path("/")
     public Response agregar(Persona p) {
