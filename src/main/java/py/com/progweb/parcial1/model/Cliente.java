@@ -25,7 +25,7 @@ public class Cliente {
     @ManyToOne
     @JoinColumn(name = "tipo_documento")
     @NotNull
-    private TipoDocumento forum;
+    private TipoDocumento tipoDocumento;
 
     @Column(name = "nombre", length = 50)
     @Basic(optional = false)
@@ -58,6 +58,42 @@ public class Cliente {
     @Column(name = "fecha_nacimiento")
     @Basic(optional = true)
     private LocalDate nacimiento;
+
+	public Integer getIdCliente() {
+		return idCliente;
+	}
+
+	public TipoDocumento getTipoDocumento() {
+		return tipoDocumento;
+	}
+
+	public String getNombre() {
+		return nombre;
+	}
+
+	public String getApellido() {
+		return apellido;
+	}
+
+	public Integer getNroDocumento() {
+		return nroDocumento;
+	}
+
+	public String getNacionalidad() {
+		return nacionalidad;
+	}
+
+	public String getEmail() {
+		return email;
+	}
+
+	public String getTelefono() {
+		return telefono;
+	}
+
+	public LocalDate getNacimiento() {
+		return nacimiento;
+	}
 
     // -- TODO: getters and setters --
 }

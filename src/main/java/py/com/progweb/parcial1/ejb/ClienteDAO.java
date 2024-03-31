@@ -29,7 +29,7 @@ public class ClienteDAO {
     }
 
     public List<Cliente> listaPersonas() {
-        Query q = this.em.createQuery("select p from Persona p");
+        Query q = this.em.createQuery("select c from Cliente c");
         return (List<Cliente>) q.getResultList();
     }
 }
