@@ -26,5 +26,38 @@ public class DetallePuntos {
     @NotNull
     private Integer puntajeUtilizado;
 
-    // TODO: Constructor, getters, and setters
+    public DetallePuntos() {
+    }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public PuntosUsados getPuntosUsados() {
+        return puntosUsados;
+    }
+
+    public void setPuntosUsados(PuntosUsados puntosUsados) {
+        this.puntosUsados = puntosUsados;
+    }
+
+    public BolsaPuntos getBolsa() {
+        return bolsa;
+    }
+
+    public void setBolsa(BolsaPuntos bolsa) {
+        this.bolsa = bolsa;
+    }
+
+    public Integer getPuntajeUtilizado() {
+        return puntajeUtilizado;
+    }
+
+    public void setPuntajeUtilizado(Integer puntajeUtilizado) {
+        this.puntajeUtilizado = puntajeUtilizado;
+    }
 }

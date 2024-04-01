@@ -33,5 +33,26 @@ public class PuntosUsados {
     @Column(name = "concepto")
     private String concepto;
 
-    // TODO: Constructor, getters, and setters
+    public PuntosUsados() {
+    }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public Cliente getCliente() {
+        return cliente;
+    }
+
+    public Integer getPuntajeUtilizado() {
+        return puntajeUtilizado;
+    }
+
+    public LocalDate getFecha() {
+        return fecha;
+    }
+
+    public String getConcepto() {
+        return concepto;
+    }
 }

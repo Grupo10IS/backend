@@ -23,5 +23,23 @@ public class TipoDocumento {
     @NotNull
     private String tipo;
 
-    // TODO: Constructor, getters, and setters
+    public TipoDocumento() {
+
+    }
+
+    public Integer getIdTipo() {
+        return idTipo;
+    }
+
+    public void setIdTipo(Integer idTipo) {
+        this.idTipo = idTipo;
+    }
+
+    public String getTipo() {
+        return tipo;
+    }
+
+    public void setTipo(String tipo) {
+        this.tipo = tipo;
+    }
 }

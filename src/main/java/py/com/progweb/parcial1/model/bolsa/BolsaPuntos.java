@@ -46,5 +46,70 @@ public class BolsaPuntos {
     @Column(name = "monto_operacion")
     private BigDecimal montoOperacion;
 
-    // TODO: Constructor, getters, and setters
+    public BolsaPuntos() {
+    }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public Cliente getCliente() {
+        return cliente;
+    }
+
+    public void setCliente(Cliente cliente) {
+        this.cliente = cliente;
+    }
+
+    public LocalDate getFechaAsignacion() {
+        return fechaAsignacion;
+    }
+
+    public void setFechaAsignacion(LocalDate fechaAsignacion) {
+        this.fechaAsignacion = fechaAsignacion;
+    }
+
+    public LocalDate getFechaCaducidad() {
+        return fechaCaducidad;
+    }
+
+    public void setFechaCaducidad(LocalDate fechaCaducidad) {
+        this.fechaCaducidad = fechaCaducidad;
+    }
+
+    public Integer getPuntajeAsignado() {
+        return puntajeAsignado;
+    }
+
+    public void setPuntajeAsignado(Integer puntajeAsignado) {
+        this.puntajeAsignado = puntajeAsignado;
+    }
+
+    public Integer getPuntajeUtilizado() {
+        return puntajeUtilizado;
+    }
+
+    public void setPuntajeUtilizado(Integer puntajeUtilizado) {
+        this.puntajeUtilizado = puntajeUtilizado;
+    }
+
+    public BigDecimal getSaldoPuntos() {
+        return saldoPuntos;
+    }
+
+    public void setSaldoPuntos(BigDecimal saldoPuntos) {
+        this.saldoPuntos = saldoPuntos;
+    }
+
+    public BigDecimal getMontoOperacion() {
+        return montoOperacion;
+    }
+
+    public void setMontoOperacion(BigDecimal montoOperacion) {
+        this.montoOperacion = montoOperacion;
+    }
 }

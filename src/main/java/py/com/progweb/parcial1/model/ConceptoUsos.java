@@ -32,5 +32,27 @@ public class ConceptoUsos {
     @NotNull
     private Integer puntos;
 
-    // TODO: Constructor, getters, and setters
+    public ConceptoUsos() {
+
+    }
+
+	public void setIdConcepto(Integer idConcepto) {
+		this.idConcepto = idConcepto;
+	}
+
+	public String getDescripcion() {
+		return descripcion;
+	}
+
+	public void setDescripcion(String descripcion) {
+		this.descripcion = descripcion;
+	}
+
+	public Integer getPuntos() {
+		return puntos;
+	}
+
+	public void setPuntos(Integer puntos) {
+		this.puntos = puntos;
+	}
 }

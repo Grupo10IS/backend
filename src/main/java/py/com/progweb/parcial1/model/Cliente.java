@@ -59,41 +59,42 @@ public class Cliente {
     @Basic(optional = true)
     private LocalDate nacimiento;
 
-	public Integer getIdCliente() {
-		return idCliente;
-	}
+    public Cliente() {
+    }
 
-	public TipoDocumento getTipoDocumento() {
-		return tipoDocumento;
-	}
+    public Integer getIdCliente() {
+        return idCliente;
+    }
 
-	public String getNombre() {
-		return nombre;
-	}
+    public TipoDocumento getTipoDocumento() {
+        return tipoDocumento;
+    }
 
-	public String getApellido() {
-		return apellido;
-	}
+    public String getNombre() {
+        return nombre;
+    }
 
-	public Integer getNroDocumento() {
-		return nroDocumento;
-	}
+    public String getApellido() {
+        return apellido;
+    }
 
-	public String getNacionalidad() {
-		return nacionalidad;
-	}
+    public Integer getNroDocumento() {
+        return nroDocumento;
+    }
 
-	public String getEmail() {
-		return email;
-	}
+    public String getNacionalidad() {
+        return nacionalidad;
+    }
 
-	public String getTelefono() {
-		return telefono;
-	}
+    public String getEmail() {
+        return email;
+    }
 
-	public LocalDate getNacimiento() {
-		return nacimiento;
-	}
+    public String getTelefono() {
+        return telefono;
+    }
 
-    // -- TODO: getters and setters --
+    public LocalDate getNacimiento() {
+        return nacimiento;
+    }
 }

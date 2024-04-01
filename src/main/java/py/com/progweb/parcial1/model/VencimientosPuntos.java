@@ -34,5 +34,38 @@ public class VencimientosPuntos {
     @NotNull
     private Integer diasDuracionPuntaje;
 
-    // TODO: Constructor, getters, and setters
+    public VencimientosPuntos() {
+    }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public LocalDate getFechaInicioValidez() {
+        return fechaInicioValidez;
+    }
+
+    public void setFechaInicioValidez(LocalDate fechaInicioValidez) {
+        this.fechaInicioValidez = fechaInicioValidez;
+    }
+
+    public LocalDate getFechaFinValidez() {
+        return fechaFinValidez;
+    }
+
+    public void setFechaFinValidez(LocalDate fechaFinValidez) {
+        this.fechaFinValidez = fechaFinValidez;
+    }
+
+    public Integer getDiasDuracionPuntaje() {
+        return diasDuracionPuntaje;
+    }
+
+    public void setDiasDuracionPuntaje(Integer diasDuracionPuntaje) {
+        this.diasDuracionPuntaje = diasDuracionPuntaje;
+    }
 }

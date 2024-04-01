@@ -33,5 +33,39 @@ public class ReglasAsignacion {
     @NotNull
     private Integer montoEquivalencia;
 
-    // TODO: Constructor, getters, and setters
+    public ReglasAsignacion() {
+
+    }
+
+    public Integer getIdRegla() {
+        return idRegla;
+    }
+
+    public void setIdRegla(Integer idRegla) {
+        this.idRegla = idRegla;
+    }
+
+    public Integer getLimInferior() {
+        return limInferior;
+    }
+
+    public void setLimInferior(Integer limInferior) {
+        this.limInferior = limInferior;
+    }
+
+    public Integer getLimSuperior() {
+        return limSuperior;
+    }
+
+    public void setLimSuperior(Integer limSuperior) {
+        this.limSuperior = limSuperior;
+    }
+
+    public Integer getMontoEquivalencia() {
+        return montoEquivalencia;
+    }
+
+    public void setMontoEquivalencia(Integer montoEquivalencia) {
+        this.montoEquivalencia = montoEquivalencia;
+    }
 }
