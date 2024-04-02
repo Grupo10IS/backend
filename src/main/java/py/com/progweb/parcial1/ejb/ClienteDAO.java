@@ -24,11 +24,11 @@ public class ClienteDAO {
     @PersistenceContext(unitName = "parcial1PU")
     private EntityManager em;
 
-    public void agregarPersona(Cliente entidad) {
+    public void agregarCliente(Cliente entidad) {
         this.em.persist(entidad);
     }
 
-    public List<Cliente> listaPersonas() {
+    public List<Cliente> listarClientes() {
         Query q = this.em.createQuery("select c from Cliente c");
         return (List<Cliente>) q.getResultList();
     }

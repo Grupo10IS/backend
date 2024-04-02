@@ -18,6 +18,7 @@
         <version>5.0.1.Final</version>
     </dependency>
 
+    <!-- javax -->
     <dependency>
         <groupId>dom4j</groupId>
         <artifactId>dom4j</artifactId>
@@ -30,6 +31,13 @@
         <version>1.0-SP4</version>
     </dependency>
     <dependency>
+        <groupId>javax.enterprise</groupId>
+        <artifactId>cdi-api</artifactId>
+        <version>1.0-SP4</version>
+    </dependency>
+
+    <!-- jboss -->
+    <dependency>
         <groupId>org.jboss.spec.javax.ejb</groupId>
         <artifactId>jboss-ejb-api_3.1_spec</artifactId>
         <version>1.0.2.Final</version>
@@ -41,10 +49,12 @@
         <version>7.1.0.CR1</version>
     </dependency>
     <dependency>
-        <groupId>javax.enterprise</groupId>
-        <artifactId>cdi-api</artifactId>
-        <version>1.0-SP4</version>
+        <groupId>org.jboss.spec.javax.ws.rs</groupId>
+        <artifactId>jboss-jaxrs-api_1.1_spec</artifactId>
+        <version>1.0.1.Final</version>
     </dependency>
+
+    <!-- utils -->
     <dependency>
         <groupId>com.fasterxml.jackson.core</groupId>
         <artifactId>jackson-annotations</artifactId>
@@ -61,13 +71,6 @@
         <groupId>com.fasterxml.jackson.core</groupId>
         <artifactId>jackson-databind</artifactId>
         <version>2.2.3</version>
-    </dependency>
-
-    <!-- wildfly -->
-    <dependency>
-        <groupId>org.jboss.spec.javax.ws.rs</groupId>
-        <artifactId>jboss-jaxrs-api_1.1_spec</artifactId>
-        <version>1.0.1.Final</version>
     </dependency>
 </dependencies>
 

@@ -1,4 +1,4 @@
- CREATE TABLE IF NOT EXISTS tipo_documento (
+CREATE TABLE IF NOT EXISTS tipo_documento (
     id SERIAL PRIMARY KEY,
     tipo varchar(20) NOT NULL
 );
