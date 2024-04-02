@@ -17,9 +17,9 @@ CREATE TABLE IF NOT EXISTS cliente (
     apellido VARCHAR(50) NOT NULL,
     numero_documento integer NOT NULL,
     nacionalidad VARCHAR(50) NOT NULL,
-    email VARCHAR(100),
+    email VARCHAR(100) NOT NULL,
     telefono VARCHAR(20),
-    fecha_nacimiento DATE,
+    fecha_nacimiento DATE NOT NULL,
 
     CONSTRAINT fk_tipo_documento FOREIGN KEY(tipo_documento) REFERENCES tipo_documento(id)
 );
@@ -74,3 +74,6 @@ CREATE TABLE IF NOT EXISTS detalle_puntos_usados (
     CONSTRAINT fk_puntos_usados FOREIGN KEY(puntos_usados_id) REFERENCES puntos_usados(id),
     CONSTRAINT fk_bolsa FOREIGN KEY(bolsa_id) REFERENCES bolsa_puntos(id)
 );
+INSERT INTO tipo_documento (tipo) VALUES
+('cedula'),
+('ruc');
