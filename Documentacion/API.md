@@ -11,7 +11,7 @@ Recieve: application/json
         - nacionalidad={_string_}: filtrar por pais
         - puntosMinimos={_integer_}: puntos minimos de los clientes a listar
         - puntosMaximos={_integer_}: puntos maximos de loa clientes a listar
-        - cumpleanos{_date (dd-mm-yyyy)_}: filtrar por fecha de nacimeinto
+        - cumpleanos{_date (yyyy-mm-dd)_}: filtrar por fecha de nacimeinto
     - Response:
         ```json
         {
@@ -25,7 +25,7 @@ Recieve: application/json
                     "nacionalidad": "string",
                     "email": "string",
                     "telefono": "string",
-                    "fechaNacimiento": "date (dd-mm-yyyy)",
+                    "fechaNacimiento": "date (yyyy-mm-dd)",
                     "puntosDisponibles": 000,
                 }
             ]
@@ -41,7 +41,7 @@ Recieve: application/json
             "apellido": "string",
             "numeroDocumento": 9999,
             "nacionalidad": "string",
-            "fechaNacimiento": "string",
+            "fechaNacimiento": "yyyy-mm-dd",
             "email": "string",
             "telefono": "string [opcional]"
         }
@@ -52,8 +52,8 @@ Recieve: application/json
     - Filtros:
         - cliente={_integer_}: id del cliente
         - concepto={_integer_}: id concepto de uso
-        - fechaMinima={_date (dd-mm-yyyy)_}: fecha minima de busqueda 
-        - fechaMaxima={_date (dd-mm-yyyy)_}: fecha maxima de busqueda
+        - fechaMinima={_date (yyyy-mm-dd)_}: fecha minima de busqueda 
+        - fechaMaxima={_date (yyyy-mm-dd)_}: fecha maxima de busqueda
      - Response:
         ```json
         {
@@ -62,7 +62,7 @@ Recieve: application/json
                     "idCliente": 0,
                     "idConcepto": 0,
                     "puntosUtilizados": 0,
-                    "fechaUso": "date (dd-mm-yyyy)"
+                    "fechaUso": "date (yyyy-mm-dd)"
                 }
             ]
         }
@@ -83,8 +83,8 @@ Recieve: application/json
                     "idBolsa": 0,
                     "idCliente": 0,
                     "puntos": 0,
-                    "fechaAsignacion": "date (dd-mm-yyyy)",
-                    "fechaCaducidad": "date (dd-mm-yyyy)",
+                    "fechaAsignacion": "date (yyyy-mm-dd)",
+                    "fechaCaducidad": "date (yyyy-mm-dd)",
                     "puntajeAsignado": 0,
                     "puntajeUtilizado": 0, 
                     "saldo": 0, 
