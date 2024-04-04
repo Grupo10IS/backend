@@ -9,18 +9,13 @@ import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
-
 import java.util.List;
 
 import py.com.progweb.parcial1.model.Cliente;
 
 @Stateless
 public class ClienteDAO {
-    /*
-     * El entity manager que se va a encargar de manejar los objetos por nosotros.
-     * La unidad de persistencia le dice al entorno (wildfly) a cual bd apuntar.
-     * Ver en el persistence.xml el nombre de la unidad de persistencia
-     */
+
     @PersistenceContext(unitName = "parcial1PU")
     private EntityManager em;
 
@@ -28,8 +23,17 @@ public class ClienteDAO {
         this.em.persist(entidad);
     }
 
-    public List<Cliente> listarClientes() {
-        Query q = this.em.createQuery("select c from Cliente c");
+    public List<Cliente> listarClientes(String nacionalidad) {
+        StringBuilder queryString = new StringBuilder("select c from Cliente c where 1=1");
+        
+        if (nacionalidad != null && !nacionalidad.isEmpty()) {
+            queryString.append(" and c.nacionalidad = :nacionalidad");
+        }
+        Query q = this.em.createQuery(queryString.toString());
+
+        if (nacionalidad != null && !nacionalidad.isEmpty()) {
+            q.setParameter("nacionalidad", nacionalidad);
+        }
         return (List<Cliente>) q.getResultList();
     }
 }
