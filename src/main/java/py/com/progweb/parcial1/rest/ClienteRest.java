@@ -12,7 +12,6 @@ import java.util.List;
 
 import py.com.progweb.parcial1.ejb.ClienteDAO;
 import py.com.progweb.parcial1.model.Cliente;
-import py.com.progweb.parcial1.utils.FilterBuilder;
 
 @Stateless
 @Path("/cliente")
@@ -21,6 +20,7 @@ import py.com.progweb.parcial1.utils.FilterBuilder;
 public class ClienteRest {
     @Inject
     private ClienteDAO clienteDAO;
+
     @PersistenceContext(unitName = "parcial1PU")
     private EntityManager em;
 
@@ -33,15 +33,8 @@ public class ClienteRest {
             @QueryParam("nacionalidad") String nacionalidad,
             @QueryParam("nacimiento") String nacimiento) {
 
-        StringBuilder queryString = new StringBuilder("select c from Cliente c");
-        FilterBuilder fb = new FilterBuilder(queryString);
-
-        fb.addEqualsFilter("c.nacionalidad", nacionalidad)
-                .addEqualsFilter("c.nacimiento", nacimiento);
-
-        Query q = this.em.createQuery(fb.build());
-
-        List<Cliente> clientes = (List<Cliente>) q.getResultList();
+        List<Cliente> clientes = this.clienteDAO.listarClientes(
+                nacionalidad, nacimiento);
 
         return Response.ok().entity(clientes).build();
     }

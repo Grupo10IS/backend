@@ -5,13 +5,15 @@ Transforma las entidades que recibimos del ORM y hacemos algo usando el widfly
 */
 package py.com.progweb.parcial1.ejb;
 
+import java.util.List;
+
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
-import java.util.List;
 
 import py.com.progweb.parcial1.model.Cliente;
+import py.com.progweb.parcial1.utils.FilterBuilder;
 
 @Stateless
 public class ClienteDAO {
@@ -23,17 +25,15 @@ public class ClienteDAO {
         this.em.persist(entidad);
     }
 
-    public List<Cliente> listarClientes(String nacionalidad) {
-        StringBuilder queryString = new StringBuilder("select c from Cliente c where 1=1");
-        
-        if (nacionalidad != null && !nacionalidad.isEmpty()) {
-            queryString.append(" and c.nacionalidad = :nacionalidad");
-        }
-        Query q = this.em.createQuery(queryString.toString());
+    public List<Cliente> listarClientes(String nacionalidad, String nacimiento) {
+        FilterBuilder fb = new FilterBuilder(
+                new StringBuilder("select c from Cliente c"));
 
-        if (nacionalidad != null && !nacionalidad.isEmpty()) {
-            q.setParameter("nacionalidad", nacionalidad);
-        }
+        fb.addEqualsFilter("c.nacionalidad", nacionalidad)
+                .addEqualsFilter("c.nacimiento", nacimiento);
+
+        Query q = this.em.createQuery(fb.build());
+
         return (List<Cliente>) q.getResultList();
     }
 }
