@@ -27,8 +27,6 @@ CREATE TABLE IF NOT EXISTS cliente (
 CREATE TABLE IF NOT EXISTS reglas_asignacion_puntos (
     id SERIAL PRIMARY KEY,
 
-    limite_inferior NUMERIC NOT NULL,
-    limite_superior NUMERIC NOT NULL,
     monto_equivalencia NUMERIC NOT NULL
 );
 

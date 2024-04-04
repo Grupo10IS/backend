@@ -14,7 +14,7 @@ install:
 
 # -- deploy and server control -- 
 deploy:
-	mvn clean install
+	mvn clean package
 	${wf}/bin/jboss-cli.sh --connect --command="deploy ${cwd}/target/parcial1.war --force"
 
 update:
