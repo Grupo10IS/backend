@@ -1,4 +1,5 @@
 package py.com.progweb.parcial1.rest;
+
 import javax.ejb.Stateless;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
@@ -11,6 +12,7 @@ import java.util.List;
 
 import py.com.progweb.parcial1.ejb.ClienteDAO;
 import py.com.progweb.parcial1.model.Cliente;
+import py.com.progweb.parcial1.utils.FilterBuilder;
 
 @Stateless
 @Path("/cliente")
@@ -27,18 +29,17 @@ public class ClienteRest {
     }
 
     @GET
-    public Response listarClientes(@QueryParam("nacionalidad") String nacionalidad) {
+    public Response listarClientes(
+            @QueryParam("nacionalidad") String nacionalidad,
+            @QueryParam("nacimiento") String nacimiento) {
 
-        StringBuilder queryString = new StringBuilder("select c from Cliente c where 1=1");
+        StringBuilder queryString = new StringBuilder("select c from Cliente c");
+        FilterBuilder fb = new FilterBuilder(queryString);
 
-        if (nacionalidad != null && !nacionalidad.isEmpty()) {
-            queryString.append(" and c.nacionalidad = :nacionalidad");
-        }
+        fb.addEqualsFilter("c.nacionalidad", nacionalidad)
+                .addEqualsFilter("c.nacimiento", nacimiento);
 
-        Query q = this.em.createQuery(queryString.toString());
-        if (nacionalidad != null && !nacionalidad.isEmpty()) {
-            q.setParameter("nacionalidad", nacionalidad);
-        }
+        Query q = this.em.createQuery(fb.build());
 
         List<Cliente> clientes = (List<Cliente>) q.getResultList();
 
