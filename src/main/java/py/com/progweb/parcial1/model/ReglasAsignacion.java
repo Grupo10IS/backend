@@ -18,16 +18,6 @@ public class ReglasAsignacion {
     @Column(name = "id", updatable = false)
     private Integer idRegla;
 
-    @Column(name = "limite_inferior")
-    @Basic(optional = false)
-    @NotNull
-    private Integer limInferior;
-
-    @Column(name = "limite_superior")
-    @Basic(optional = false)
-    @NotNull
-    private Integer limSuperior;
-
     @Column(name = "monto_equivalencia")
     @Basic(optional = false)
     @NotNull
@@ -39,26 +29,6 @@ public class ReglasAsignacion {
 
     public Integer getIdRegla() {
         return idRegla;
-    }
-
-    public void setIdRegla(Integer idRegla) {
-        this.idRegla = idRegla;
-    }
-
-    public Integer getLimInferior() {
-        return limInferior;
-    }
-
-    public void setLimInferior(Integer limInferior) {
-        this.limInferior = limInferior;
-    }
-
-    public Integer getLimSuperior() {
-        return limSuperior;
-    }
-
-    public void setLimSuperior(Integer limSuperior) {
-        this.limSuperior = limSuperior;
     }
 
     public Integer getMontoEquivalencia() {
