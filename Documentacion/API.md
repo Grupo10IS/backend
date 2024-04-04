@@ -112,8 +112,8 @@ Recieve: application/json
             }
             ```
     
-- /cotizacion/
-    - _GET_: utilizar una cantidad x de puntos
+- /cotizacion?monto={}
+    - _GET_: realizar la cotizacion de un monto x a puntos.
     - filtros: (obligatorio)
         - monto={_integer_}: monto de dinero a ser cotizado en puntos
      - Response:
