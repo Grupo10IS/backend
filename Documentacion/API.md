@@ -5,10 +5,10 @@ Recieve: application/json
 
 ## Paths
 
-- [/asignaciones](./endpoints/asignaciones.md)
+- [x] [/asignaciones](./endpoints/asignaciones.md)
 - [/bolsaPuntos](./endpoints/bolsaPuntos.md)
 - [/cliente](./endpoints/cliente.md)
-- [/conceptos](./endpoints/conceptos.md)
-- [/cotizacion](./endpoints/cotizaciones.md)
+- [x] [/conceptos](./endpoints/conceptos.md)
+- [x] [/cotizacion](./endpoints/cotizaciones.md)
 - [/puntosUsados](./endpoints/puntosUsados.md)
-- [/vencimientosPuntos](./endpoints/vencimientos.md)
+- [x] [/vencimientosPuntos](./endpoints/vencimientos.md)
