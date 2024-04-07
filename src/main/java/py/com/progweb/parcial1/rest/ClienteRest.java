@@ -4,7 +4,6 @@ import javax.ejb.Stateless;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import javax.persistence.Query;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
@@ -24,8 +23,9 @@ public class ClienteRest {
     @PersistenceContext(unitName = "parcial1PU")
     private EntityManager em;
 
-    public void agregarCliente(Cliente entidad) {
-        this.em.persist(entidad);
+    @POST
+    public void agregarCliente(Cliente data) {
+        this.clienteDAO.agregarCliente(data);
     }
 
     @GET
