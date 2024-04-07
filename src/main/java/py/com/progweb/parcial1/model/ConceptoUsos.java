@@ -10,7 +10,7 @@ import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
 @Entity
-@Table(name = "concepto_uso_puntos")
+@Table(name = "conceptos_uso_puntos")
 public class ConceptoUsos {
     @Id
     @Basic(optional = false)
