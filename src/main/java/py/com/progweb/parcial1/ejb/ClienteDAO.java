@@ -13,7 +13,6 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 
 import py.com.progweb.parcial1.model.Cliente;
-import py.com.progweb.parcial1.utils.FilterBuilder;
 
 @Stateless
 public class ClienteDAO {
@@ -26,13 +25,13 @@ public class ClienteDAO {
     }
 
     public List<Cliente> listarClientes(String nacionalidad, String nacimiento) {
-        FilterBuilder fb = new FilterBuilder(
-                new StringBuilder("select c from Cliente c"));
+        String query = String.format(
+                "select c from Cliente c " +
+                        "where c.nacionalidad = %s " +
+                        "and c.nacimiento = %s ",
+                nacionalidad, nacimiento);
 
-        fb.addEqualsFilter("c.nacionalidad", nacionalidad)
-                .addEqualsFilter("c.nacimiento", nacimiento);
-
-        Query q = this.em.createQuery(fb.build());
+        Query q = this.em.createQuery(query);
 
         return (List<Cliente>) q.getResultList();
     }

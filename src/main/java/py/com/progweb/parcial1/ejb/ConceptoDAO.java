@@ -13,7 +13,6 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 
 import py.com.progweb.parcial1.model.ConceptoUsos;
-import py.com.progweb.parcial1.utils.FilterBuilder;
 
 @Stateless
 public class ConceptoDAO {
@@ -26,11 +25,7 @@ public class ConceptoDAO {
     }
 
     public List<ConceptoUsos> listarConceptos() {
-        FilterBuilder fb = new FilterBuilder(
-            new StringBuilder("select c from ConceptoUsos c"));
-
-        Query q = this.em.createQuery(fb.build());
-
+        Query q = this.em.createQuery("select c from ConceptoUsos c");
         return (List<ConceptoUsos>) q.getResultList();
     }
 }

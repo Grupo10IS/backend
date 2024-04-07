@@ -25,9 +25,9 @@ public class ReglasAsignacionRest {
         ReglasAsignacion reglaEquivalencia = reglasAsignacionDAO.getReglaEquivalencia();
         if (reglaEquivalencia == null) {
             throw new WebApplicationException(
-                Response.status(Response.Status.BAD_REQUEST)
-                        .entity("NULL")
-                        .build());
+                    Response.status(Response.Status.BAD_REQUEST)
+                            .entity("NULL")
+                            .build());
         }
         return Response.ok(reglaEquivalencia).build();
     }

@@ -13,7 +13,7 @@ import py.com.progweb.parcial1.model.ReglasAsignacion;
 
 @Path("cotizacion")
 @Produces("application/json")
-public class Cotizacion {
+public class CotizacionRest {
     @Inject
     private ReglasAsignacionDAO rgDAO;
 

@@ -24,8 +24,9 @@ public class ClienteRest {
     private EntityManager em;
 
     @POST
-    public void agregarCliente(Cliente data) {
+    public Response agregarCliente(Cliente data) {
         this.clienteDAO.agregarCliente(data);
+        return Response.ok().build();
     }
 
     @GET
