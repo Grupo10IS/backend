@@ -5,6 +5,8 @@
         - puntosMinimos={_integer_}: puntos minimos de los clientes a listar
         - puntosMaximos={_integer_}: puntos maximos de loa clientes a listar
         - cumpleanos{_date (yyyy-mm-dd)_}: filtrar por fecha de nacimeinto
+        - vencimientoPuntos{_integer_}: listar los clientes que tengan puntos a vencer en x
+        dias
     - Response:
         ```json
         {

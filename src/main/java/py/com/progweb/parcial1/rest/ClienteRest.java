@@ -32,10 +32,11 @@ public class ClienteRest {
     @GET
     public Response listarClientes(
             @QueryParam("nacionalidad") String nacionalidad,
-            @QueryParam("nacimiento") String nacimiento) {
+            @QueryParam("nacimiento") String nacimiento,
+            @QueryParam("vencimientoPuntos") String vencimientos) {
 
         List<Cliente> clientes = this.clienteDAO.listarClientes(
-                nacionalidad, nacimiento);
+                nacionalidad, nacimiento, vencimientos);
 
         return Response.ok().entity(clientes).build();
     }
