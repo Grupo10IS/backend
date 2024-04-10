@@ -5,6 +5,8 @@ Transforma las entidades que recibimos del ORM y hacemos algo usando el widfly
 */
 package py.com.progweb.parcial1.ejb;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 import javax.ejb.Stateless;
@@ -13,6 +15,7 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 
 import py.com.progweb.parcial1.model.Cliente;
+import py.com.progweb.parcial1.utils.QueryBuilder;
 
 @Stateless
 public class ClienteDAO {
@@ -24,35 +27,40 @@ public class ClienteDAO {
         this.em.persist(entidad);
     }
 
-    public List<Cliente> listarClientes(String nacionalidad, String nacimiento, String vencimientoPuntos) {
-        if (vencimientoPuntos != null && vencimientoPuntos.length() != 0) {
-            return listarClientesPorBolsa(nacionalidad, nacimiento, vencimientoPuntos);
+    public List<Cliente> listarClientes(String nacionalidad, String nacimiento) {
+        QueryBuilder qb = new QueryBuilder("SELECT c FROM Cliente c")
+                .addCondition("c.nacionalidad = :nacionalidad", "nacionalidad", nacionalidad);
+
+        if (nacimiento != null) {
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+            LocalDate cumpleanos = LocalDate.parse(nacimiento, formatter);
+            qb.addCondition("c.nacimiento = :nacimiento", "nacimiento", cumpleanos);
         }
 
-        String query = String.format(
-                "select c from Cliente c " +
-                        "where c.nacionalidad = %s " +
-                        "and c.nacimiento = %s ",
-                nacionalidad, nacimiento);
-
-        Query q = this.em.createQuery(query);
-
-        return (List<Cliente>) q.getResultList();
+        return (List<Cliente>) qb.build(this.em).getResultList();
     }
 
-    // creo una funcion especial para listar los clientes con puntos a vencer en x
-    // dias para que las consultas
-    // sin el filtro de puntos a vencer sea mas veloz
-    private List<Cliente> listarClientesPorBolsa(String nacionalidad, String nacimiento, String vencimientoPuntos) {
-        String query = String.format(
-                "select b.cliente from BolsaPuntos b " +
-                        "where b.cliente.nacionalidad = %s " +
-                        "and b.cliente.nacimiento = %s " +
-                        "and b.fechaCaducidad = %s ",
-                nacionalidad, nacimiento, vencimientoPuntos);
+    // PERF: para que las consultas sin el filtro de "puntos a vencer" sea mas veloz
+    public List<Cliente> listarClientes(String nacionalidad, String nacimiento, String diasVencimiento) {
+        // formatear las fechas de la query
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        LocalDate fechaActual = LocalDate.now();
+        LocalDate vencimiento = fechaActual.plusDays(new Integer(diasVencimiento));
 
-        Query q = this.em.createQuery(query);
+        QueryBuilder qb = new QueryBuilder(
+                "select c from Cliente c left join BolsaPuntos b on b.cliente.idCliente = c.idCliente")
+                .addCondition("c.nacionalidad = :nacionalidad", "nacionalidad", nacionalidad)
+                .addCondition("b.fechaCaducidad <= :vencimientoPuntos", "vencimientoPuntos", vencimiento)
+                .addCondition("b.fechaAsignacion <= :fechaActual", "fechaActual", fechaActual)
+                .addText("and b.fechaCaducidad >= :fechaActual");
 
-        return (List<Cliente>) q.getResultList();
+        if (nacimiento != null) {
+            qb.addCondition("c.nacimiento = :nacimiento",
+                    "nacimiento", LocalDate.parse(nacimiento, formatter));
+        }
+
+        qb.addText("group by c.idCliente");
+
+        return (List<Cliente>) qb.build(this.em).getResultList();
     }
 }

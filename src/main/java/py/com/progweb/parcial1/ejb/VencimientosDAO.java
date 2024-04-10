@@ -1,14 +1,13 @@
 package py.com.progweb.parcial1.ejb;
 
 import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import javax.persistence.Query;
 
 import py.com.progweb.parcial1.model.VencimientosPuntos;
+import py.com.progweb.parcial1.utils.QueryBuilder;
 
 public class VencimientosDAO {
     @PersistenceContext(unitName = "parcial1PU")
@@ -19,16 +18,9 @@ public class VencimientosDAO {
     }
 
     public List<VencimientosPuntos> listarReglasVencimiento() {
-        // determinar la fecha actual en formato yyyy-MM-dd
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-        String fechaActual = LocalDate.now().format(formatter);
+        QueryBuilder qb = new QueryBuilder("select v from VencimientosPuntos v");
+        qb.addCondition("v.fechaInicioValidez >= :fecha", "fecha", LocalDate.now());
 
-        String query = String.format(
-                "select v from VencimientosPuntos v " +
-                        "where v.fechaInicioValidez >= %s",
-                fechaActual);
-
-        Query q = this.em.createQuery(query);
-        return (List<VencimientosPuntos>) q.getResultList();
+        return (List<VencimientosPuntos>) qb.build(this.em).getResultList();
     }
 }

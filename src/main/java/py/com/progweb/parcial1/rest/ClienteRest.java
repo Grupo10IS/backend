@@ -35,8 +35,15 @@ public class ClienteRest {
             @QueryParam("nacimiento") String nacimiento,
             @QueryParam("vencimientoPuntos") String vencimientos) {
 
-        List<Cliente> clientes = this.clienteDAO.listarClientes(
-                nacionalidad, nacimiento, vencimientos);
+        List<Cliente> clientes;
+
+        if (vencimientos == null || vencimientos.length() == 0) {
+            clientes = this.clienteDAO.listarClientes(
+                    nacionalidad, nacimiento);
+        } else {
+            clientes = this.clienteDAO.listarClientes(
+                    nacionalidad, nacimiento, vencimientos);
+        }
 
         return Response.ok().entity(clientes).build();
     }
