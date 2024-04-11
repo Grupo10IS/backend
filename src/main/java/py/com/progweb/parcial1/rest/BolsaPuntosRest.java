@@ -5,6 +5,8 @@ import javax.inject.Inject;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+
+import java.math.BigDecimal;
 import java.util.List;
 
 import py.com.progweb.parcial1.ejb.BolsaPuntosDAO;
@@ -25,6 +27,19 @@ public class BolsaPuntosRest {
             @QueryParam("vencimiento") Integer vencimiento) {
         List<BolsaPuntos> bolsasPuntos = this.bolsaPuntosDAO.listarBolsasPuntos(idCliente, puntosasignados, vencimiento);
         return Response.ok().entity(bolsasPuntos).build();
+    }
+
+
+    @POST
+    @Path("/")
+    public Response cargarPuntos(@QueryParam("idCliente") Integer idCliente,
+                                 @QueryParam("montoOperacion") BigDecimal montoOperacion) {
+        try {
+            bolsaPuntosDAO.cargarPuntos(idCliente, montoOperacion);
+            return Response.ok().build();
+        } catch (Exception arei) {
+            return Response.status(Response.Status.BAD_REQUEST).entity(arei.getMessage()).build();
+        }
     }
 
 

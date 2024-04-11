@@ -4,7 +4,10 @@ import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
+import javax.ws.rs.WebApplicationException;
+import javax.ws.rs.core.Response;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -58,5 +61,30 @@ public class BolsaPuntosDAO {
     public void actualizarBolsaPuntos(BolsaPuntos bolsaPuntos) {
         this.em.merge(bolsaPuntos);
     }
+
+    
+    public void cargarPuntos(Integer idCliente, BigDecimal montoOperacion) {
+        BolsaPuntos bolsaPuntos = em.find(BolsaPuntos.class, idCliente);
+        if (bolsaPuntos == null) {
+            throw new WebApplicationException(
+                    Response.status(Response.Status.BAD_REQUEST)
+                            .entity("NULL")
+                            .build());        
+        }
+        BigDecimal montoReglaAsignacon = getMontoEquivalencia();
+        int puntosAsignados = montoOperacion.divide(montoReglaAsignacon).intValue();
+        bolsaPuntos.setPuntajeAsignado(bolsaPuntos.getPuntajeAsignado() + puntosAsignados);
+        bolsaPuntos.setMontoOperacion(montoOperacion);
+        em.merge(bolsaPuntos);
+    }
+    public BigDecimal getMontoEquivalencia(){
+        Query query = em.createQuery("SELECT monto_equivalencia FROM reglas_asignacion_puntos", BigDecimal.class);
+        List<BigDecimal> result = query.getResultList();
+        if (result.isEmpty()) {
+            return BigDecimal.valueOf(1); //cargar 1 si que está vacio la consulta 
+        }
+        return result.get(0);
+    }
+
 
 }
