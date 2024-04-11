@@ -1,5 +1,9 @@
 package py.com.progweb.parcial1.ejb;
 
+import java.math.BigDecimal;
+import java.time.LocalDate;
+import java.util.List;
+
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -7,11 +11,11 @@ import javax.persistence.Query;
 import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.Response;
 
-import java.math.BigDecimal;
-import java.time.LocalDate;
-import java.util.List;
-
+import py.com.progweb.parcial1.model.Cliente;
+import py.com.progweb.parcial1.model.ReglasAsignacion;
+import py.com.progweb.parcial1.model.VencimientosPuntos;
 import py.com.progweb.parcial1.model.bolsa.BolsaPuntos;
+import py.com.progweb.parcial1.utils.QueryBuilder;
 
 @Stateless
 public class BolsaPuntosDAO {
@@ -62,29 +66,62 @@ public class BolsaPuntosDAO {
         this.em.merge(bolsaPuntos);
     }
 
-    
+    /**
+     * anadir nuevos puntos a un cliente
+     *
+     * @param idCliente
+     * @param montoOperacion
+     */
     public void cargarPuntos(Integer idCliente, BigDecimal montoOperacion) {
-        BolsaPuntos bolsaPuntos = em.find(BolsaPuntos.class, idCliente);
-        if (bolsaPuntos == null) {
+        Cliente cliente = em.find(Cliente.class, idCliente);
+
+        if (cliente == null) {
             throw new WebApplicationException(
                     Response.status(Response.Status.BAD_REQUEST)
-                            .entity("NULL")
-                            .build());        
+                            .entity("El usuario no existe")
+                            .build());
         }
-        BigDecimal montoReglaAsignacon = getMontoEquivalencia();
-        int puntosAsignados = montoOperacion.divide(montoReglaAsignacon).intValue();
-        bolsaPuntos.setPuntajeAsignado(bolsaPuntos.getPuntajeAsignado() + puntosAsignados);
-        bolsaPuntos.setMontoOperacion(montoOperacion);
-        em.merge(bolsaPuntos);
-    }
-    public BigDecimal getMontoEquivalencia(){
-        Query query = em.createQuery("SELECT monto_equivalencia FROM reglas_asignacion_puntos", BigDecimal.class);
-        List<BigDecimal> result = query.getResultList();
-        if (result.isEmpty()) {
-            return BigDecimal.valueOf(1); //cargar 1 si que está vacio la consulta 
+
+        // traer el monto de equivalencia en puntos
+        List<ReglasAsignacion> request = (List<ReglasAsignacion>) em.createQuery(
+                "SELECT r FROM ReglasAsignacion r").getResultList();
+
+        if (request == null || request.isEmpty()) {
+            throw new WebApplicationException(
+                    Response.status(Response.Status.INTERNAL_SERVER_ERROR)
+                            .entity("No existen reglas de asignacion de puntos activas")
+                            .build());
         }
-        return result.get(0);
+
+        ReglasAsignacion reglaAsig = request.get(0);
+        BigDecimal equivalencia = new BigDecimal(reglaAsig.getMontoEquivalencia());
+        int puntosAsignados = montoOperacion.divide(equivalencia).intValue();
+
+        // asignar una fecha de caducidad
+        QueryBuilder qb = new QueryBuilder("select v from VencimientosPuntos v")
+                .addCondition("v.fechaFinValidez >= :fecha", "fecha", LocalDate.now())
+                .addText("order by v.id asc");
+
+        List<VencimientosPuntos> reglasVenc = (List<VencimientosPuntos>) qb.build(this.em).getResultList();
+
+        if (reglasVenc == null || reglasVenc.isEmpty()) {
+            throw new WebApplicationException(
+                    Response.status(Response.Status.INTERNAL_SERVER_ERROR)
+                            .entity("No existen reglas de asignacion fechas de vencimiento")
+                            .build());
+        }
+
+        Integer caducidad = reglasVenc.get(0).getDiasDuracionPuntaje();
+
+        // realizar la insercion
+        em.getTransaction().begin();
+
+        em.persist(new BolsaPuntos(
+                cliente,
+                LocalDate.now().plusDays(caducidad),
+                puntosAsignados,
+                montoOperacion));
+
+        em.getTransaction().commit();
     }
-
-
 }

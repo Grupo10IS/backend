@@ -55,7 +55,7 @@ public class PuntosUsados {
         return fecha;
     }
 
-    public String getConcepto() {
+    public ConceptoUsos getConcepto() {
         return concepto;
     }
 }

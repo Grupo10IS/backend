@@ -25,45 +25,45 @@ public class BolsaPuntosRest {
             @QueryParam("cliente") Integer idCliente,
             @QueryParam("puntosasignados") Integer puntosasignados,
             @QueryParam("vencimiento") Integer vencimiento) {
-        List<BolsaPuntos> bolsasPuntos = this.bolsaPuntosDAO.listarBolsasPuntos(idCliente, puntosasignados, vencimiento);
+        List<BolsaPuntos> bolsasPuntos = this.bolsaPuntosDAO.listarBolsasPuntos(idCliente, puntosasignados,
+                vencimiento);
         return Response.ok().entity(bolsasPuntos).build();
     }
 
+    private class Req {
+        Integer idCliente;
+        BigDecimal montoOperacion;
+    }
 
     @POST
     @Path("/")
-    public Response cargarPuntos(@QueryParam("idCliente") Integer idCliente,
-                                 @QueryParam("montoOperacion") BigDecimal montoOperacion) {
+    public Response cargarPuntos(Req req) {
         try {
-            bolsaPuntosDAO.cargarPuntos(idCliente, montoOperacion);
+            if (req.idCliente == null || req.montoOperacion == null){
+                return Response.status(Response.Status.BAD_REQUEST).entity("Faltan campos en la request").build();
+            }
+
+            this.bolsaPuntosDAO.cargarPuntos(req.idCliente, req.montoOperacion);
+
             return Response.ok().build();
         } catch (Exception arei) {
             return Response.status(Response.Status.BAD_REQUEST).entity(arei.getMessage()).build();
         }
     }
 
-
-    @POST
-    @Path("/")
-    public Response agregarBolsaPuntos(BolsaPuntos bolsaPuntos) {
-        bolsaPuntosDAO.agregarBolsaPuntos(bolsaPuntos);
-        return Response.status(Response.Status.CREATED).build();
-    }
-    
-
     @PUT
     @Path("/")
     public Response utilizarPuntos(@QueryParam("idCliente") Integer idCliente,
-                                @QueryParam("idConcepto") Integer idConcepto) {
-    
+            @QueryParam("idConcepto") Integer idConcepto) {
+
         BolsaPuntos bolsa = bolsaPuntosDAO.buscarPorId(idCliente);
         if (bolsa == null) {
             return Response.status(Response.Status.NOT_FOUND).build();
         }
-        
+
         bolsaPuntosDAO.actualizarBolsaPuntos(bolsa);
-    
+
         return Response.ok().build();
     }
-    
+
 }
