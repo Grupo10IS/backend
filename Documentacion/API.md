@@ -10,5 +10,5 @@ Recieve: application/json
 - [x] [/cliente](./endpoints/cliente.md)
 - [x] [/conceptos](./endpoints/conceptos.md)
 - [x] [/cotizacion](./endpoints/cotizaciones.md)
-- [/puntosUsados](./endpoints/puntosUsados.md)
+- [x] [/puntosUsados](./endpoints/puntosUsados.md)
 - [x] [/vencimientosPuntos](./endpoints/vencimientos.md)

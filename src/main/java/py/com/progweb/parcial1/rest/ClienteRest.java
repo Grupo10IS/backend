@@ -7,6 +7,9 @@ import javax.persistence.PersistenceContext;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import javax.ws.rs.core.Response.Status;
+
+import java.time.format.DateTimeParseException;
 import java.util.List;
 
 import py.com.progweb.parcial1.ejb.ClienteDAO;
@@ -37,12 +40,16 @@ public class ClienteRest {
 
         List<Cliente> clientes;
 
-        if (vencimientos == null || vencimientos.length() == 0) {
-            clientes = this.clienteDAO.listarClientes(
-                    nacionalidad, nacimiento);
-        } else {
-            clientes = this.clienteDAO.listarClientes(
-                    nacionalidad, nacimiento, vencimientos);
+        try {
+            if (vencimientos == null || vencimientos.length() == 0) {
+                clientes = this.clienteDAO.listarClientes(
+                        nacionalidad, nacimiento);
+            } else {
+                clientes = this.clienteDAO.listarClientes(
+                        nacionalidad, nacimiento, vencimientos);
+            }
+        } catch (DateTimeParseException e) {
+            return Response.status(Status.BAD_REQUEST).entity("Bad date format").build();
         }
 
         return Response.ok().entity(clientes).build();

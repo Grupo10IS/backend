@@ -7,6 +7,7 @@ package py.com.progweb.parcial1.ejb;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.util.List;
 
 import javax.ejb.Stateless;
@@ -27,7 +28,10 @@ public class ClienteDAO {
         this.em.persist(entidad);
     }
 
-    public List<Cliente> listarClientes(String nacionalidad, String nacimiento) {
+    public List<Cliente> listarClientes(
+            String nacionalidad,
+            String nacimiento) throws DateTimeParseException {
+
         QueryBuilder qb = new QueryBuilder("SELECT c FROM Cliente c")
                 .addCondition("c.nacionalidad = :nacionalidad", "nacionalidad", nacionalidad);
 
@@ -41,7 +45,11 @@ public class ClienteDAO {
     }
 
     // PERF: para que las consultas sin el filtro de "puntos a vencer" sea mas veloz
-    public List<Cliente> listarClientes(String nacionalidad, String nacimiento, String diasVencimiento) {
+    public List<Cliente> listarClientes(
+            String nacionalidad,
+            String nacimiento,
+            String diasVencimiento) throws DateTimeParseException {
+
         // formatear las fechas de la query
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         LocalDate fechaActual = LocalDate.now();
