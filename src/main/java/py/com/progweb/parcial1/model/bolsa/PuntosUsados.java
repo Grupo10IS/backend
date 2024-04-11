@@ -4,6 +4,7 @@ import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 
 import py.com.progweb.parcial1.model.Cliente;
+import py.com.progweb.parcial1.model.ConceptoUsos;
 
 import java.time.LocalDate;
 
@@ -30,8 +31,10 @@ public class PuntosUsados {
     @NotNull
     private LocalDate fecha;
 
-    @Column(name = "concepto")
-    private String concepto;
+    @ManyToOne
+    @JoinColumn(name = "concepto")
+    @NotNull
+    private ConceptoUsos concepto;
 
     public PuntosUsados() {
     }
