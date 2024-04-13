@@ -30,16 +30,16 @@ public class BolsaPuntosRest {
         return Response.ok().entity(bolsasPuntos).build();
     }
 
-    private class Req {
+    private class ReqCarga {
         Integer idCliente;
         BigDecimal montoOperacion;
     }
 
     @POST
     @Path("/")
-    public Response cargarPuntos(Req req) {
+    public Response cargarPuntos(ReqCarga req) {
         try {
-            if (req.idCliente == null || req.montoOperacion == null){
+            if (req.idCliente == null || req.montoOperacion == null) {
                 return Response.status(Response.Status.BAD_REQUEST).entity("Faltan campos en la request").build();
             }
 
@@ -51,19 +51,26 @@ public class BolsaPuntosRest {
         }
     }
 
-    @PUT
+
+    private class ReqUso {
+        Integer idCliente;
+        Integer idConcepto;
+    }
+
+    @POST
     @Path("/")
-    public Response utilizarPuntos(@QueryParam("idCliente") Integer idCliente,
-            @QueryParam("idConcepto") Integer idConcepto) {
+    public Response usarPuntos(ReqUso req) {
+        try {
+            if (req.idCliente == null || req.idConcepto == null) {
+                return Response.status(Response.Status.BAD_REQUEST).entity("Faltan campos en la request").build();
+            }
 
-        BolsaPuntos bolsa = bolsaPuntosDAO.buscarPorId(idCliente);
-        if (bolsa == null) {
-            return Response.status(Response.Status.NOT_FOUND).build();
+            this.bolsaPuntosDAO.usarPuntos(req.idCliente, req.idConcepto);
+
+            return Response.ok().build();
+        } catch (Exception arei) {
+            return Response.status(Response.Status.BAD_REQUEST).entity(arei.getMessage()).build();
         }
-
-        bolsaPuntosDAO.actualizarBolsaPuntos(bolsa);
-
-        return Response.ok().build();
     }
 
 }

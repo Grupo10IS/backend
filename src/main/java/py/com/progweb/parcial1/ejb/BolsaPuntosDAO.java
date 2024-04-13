@@ -12,6 +12,7 @@ import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.Response;
 
 import py.com.progweb.parcial1.model.Cliente;
+import py.com.progweb.parcial1.model.ConceptoUsos;
 import py.com.progweb.parcial1.model.ReglasAsignacion;
 import py.com.progweb.parcial1.model.VencimientosPuntos;
 import py.com.progweb.parcial1.model.bolsa.BolsaPuntos;
@@ -27,35 +28,29 @@ public class BolsaPuntosDAO {
         this.em.persist(bolsaPuntos);
     }
 
-    public List<BolsaPuntos> listarBolsasPuntos(Integer idCliente, Integer puntosasignados, Integer vencimiento) {
+    /**
+     * Listar las bolsas activas y con puntos del cliente
+     * 
+     * @param idCliente
+     * @param puntosAsignados
+     * @param vencimiento
+     * @return
+     */
+    public List<BolsaPuntos> listarBolsasPuntos(
+            Integer idCliente,
+            Integer puntosMin,
+            Integer puntosMax,
+            Integer vencimiento) {
 
-        StringBuilder queryBuilder = new StringBuilder("SELECT * FROM bolsa_puntos WHERE 1=1");
-        if (idCliente != null) {
-            queryBuilder.append(" AND cliente_id = :idCliente");
-        }
+        QueryBuilder qb = new QueryBuilder("SELECT * FROM BolsaPuntos b")
+                .addCondition("b.idCliente = :idCliente", "idCliente", idCliente)
+                .addCondition("b.puntosAsignados <= :puntosMax", "puntosMax", puntosMax)
+                .addCondition("b.puntosAsignados >= :puntosMin", "puntosMin", puntosMin)
+                .addCondition("b.fechaAsignacion >= :fecha", "fecha", LocalDate.now())
+                .addCondition("b.fechaCaducidad - b.fechaAsignacion = :vencimiento", "vencimiento", vencimiento)
+                .addText("and b.saldoPuntos > 0");
 
-        if (puntosasignados != null) {
-            queryBuilder.append(" AND puntaje_asignado = :puntosasignados");
-        }
-
-        if (vencimiento != null) {
-            queryBuilder.append(" AND (fecha_caducidad - fecha_asignacion) = :vencimiento");
-        }
-
-        Query q = em.createNativeQuery(queryBuilder.toString(), BolsaPuntos.class);
-        if (idCliente != null) {
-            q.setParameter("idCliente", idCliente);
-        }
-
-        if (puntosasignados != null) {
-            q.setParameter("puntosasignados", puntosasignados);
-        }
-
-        if (vencimiento != null) {
-            q.setParameter("vencimiento", vencimiento);
-        }
-
-        return q.getResultList();
+        return (List<BolsaPuntos>) qb.build(this.em).getResultList();
     }
 
     public BolsaPuntos buscarPorId(Integer id) {
@@ -121,6 +116,85 @@ public class BolsaPuntosDAO {
                 LocalDate.now().plusDays(caducidad),
                 puntosAsignados,
                 montoOperacion));
+
+        em.getTransaction().commit();
+    }
+
+    /**
+     * utilizar una cantidad de puntos del cliente
+     *
+     * @param idCliente
+     * @param montoOperacion
+     */
+    public void usarPuntos(Integer idCliente, Integer idConcepto) {
+        // traer el cliente
+        Cliente cliente = em.find(Cliente.class, idCliente);
+        if (cliente == null) {
+            throw new WebApplicationException(
+                    Response.status(Response.Status.BAD_REQUEST)
+                            .entity("El usuario no existe")
+                            .build());
+        }
+
+        // traer el concepto de uso
+        ConceptoUsos concepto = em.find(ConceptoUsos.class, idConcepto);
+        if (concepto == null) {
+            throw new WebApplicationException(
+                    Response.status(Response.Status.BAD_REQUEST)
+                            .entity("El concepto no existe no existe")
+                            .build());
+        }
+
+        // Listar las bolsas activas del cliente
+        QueryBuilder qb = new QueryBuilder("select b from BolsaPuntos b")
+                .addCondition("b.fechaCaducidad >= :fecha", "fecha", LocalDate.now())
+                .addText("b.saldoPuntos > 0")
+                .addText("order by b.id asc");
+
+        List<BolsaPuntos> bolsas = (List<BolsaPuntos>) qb.build(this.em).getResultList();
+
+        if (bolsas == null || bolsas.isEmpty()) {
+            throw new WebApplicationException(
+                    Response.status(Response.Status.INTERNAL_SERVER_ERROR)
+                            .entity("El cliente no cuenta con los puntos necesarios")
+                            .build());
+        }
+
+        // hacer el recuento de puntos del cliente
+        Integer saldo = 0;
+        for (int i = 0; i < bolsas.size(); i++) {
+            saldo += bolsas.get(i).getSaldoPuntos();
+        }
+
+        Integer puntosRequeridos = concepto.getPuntosRequeridos();
+        if (saldo < puntosRequeridos) {
+            throw new WebApplicationException(
+                    Response.status(Response.Status.INTERNAL_SERVER_ERROR)
+                            .entity("El cliente no cuenta con los puntos necesarios")
+                            .build());
+        }
+
+        // realizar la operacion
+        em.getTransaction().begin();
+
+        Integer i = 0;
+        while (puntosRequeridos > 0) {
+            BolsaPuntos bolsa = bolsas.get(i);
+
+            if (bolsa.getSaldoPuntos() < puntosRequeridos) {
+                bolsa.setPuntajeUtilizado(bolsa.getPuntajeAsignado());
+                puntosRequeridos -= bolsa.getSaldoPuntos();
+                bolsa.setSaldoPuntos(0);
+
+            } else {
+                bolsa.setPuntajeUtilizado(bolsa.getPuntajeUtilizado() + puntosRequeridos);
+                bolsa.setSaldoPuntos(bolsa.getPuntajeAsignado() - bolsa.getPuntajeUtilizado());
+                puntosRequeridos = 0;
+            }
+
+            em.persist(bolsa);
+            i++;
+        }
 
         em.getTransaction().commit();
     }

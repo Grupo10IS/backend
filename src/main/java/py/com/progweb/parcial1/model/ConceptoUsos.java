@@ -30,7 +30,7 @@ public class ConceptoUsos {
     @Column(name = "puntos_requeridos")
     @Basic(optional = false)
     @NotNull
-    private Integer puntos;
+    private Integer puntosRequeridos;
 
     public ConceptoUsos() {
 
@@ -48,11 +48,11 @@ public class ConceptoUsos {
 		this.descripcion = descripcion;
 	}
 
-	public Integer getPuntos() {
-		return puntos;
+	public Integer getPuntosRequeridos() {
+		return puntosRequeridos;
 	}
 
-	public void setPuntos(Integer puntos) {
-		this.puntos = puntos;
+	public void setPuntosRequeridos(Integer puntos) {
+		this.puntosRequeridos = puntos;
 	}
 }
