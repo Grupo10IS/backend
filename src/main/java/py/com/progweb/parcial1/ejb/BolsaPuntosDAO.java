@@ -32,7 +32,8 @@ public class BolsaPuntosDAO {
      * Listar las bolsas activas y con puntos del cliente
      * 
      * @param idCliente
-     * @param puntosAsignados
+     * @param puntosMin,
+     * @param puntosMax,
      * @param vencimiento
      * @return
      */
@@ -42,11 +43,11 @@ public class BolsaPuntosDAO {
             Integer puntosMax,
             Integer vencimiento) {
 
-        QueryBuilder qb = new QueryBuilder("SELECT * FROM BolsaPuntos b")
+        QueryBuilder qb = new QueryBuilder("SELECT b FROM BolsaPuntos b")
                 .addCondition("b.idCliente = :idCliente", "idCliente", idCliente)
                 .addCondition("b.puntosAsignados <= :puntosMax", "puntosMax", puntosMax)
                 .addCondition("b.puntosAsignados >= :puntosMin", "puntosMin", puntosMin)
-                .addCondition("b.fechaAsignacion >= :fecha", "fecha", LocalDate.now())
+                .addCondition("b.fechaCaducidad >= :fecha", "fecha", LocalDate.now())
                 .addCondition("b.fechaCaducidad - b.fechaAsignacion = :vencimiento", "vencimiento", vencimiento)
                 .addText("and b.saldoPuntos > 0");
 
