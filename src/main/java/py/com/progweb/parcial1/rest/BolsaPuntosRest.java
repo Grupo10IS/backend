@@ -33,7 +33,7 @@ public class BolsaPuntosRest {
         return Response.ok().entity(bolsas).build();
     }
 
-    private class ReqCarga {
+    public static class ReqCarga {
         Integer idCliente;
         BigDecimal montoOperacion;
     }
@@ -50,7 +50,7 @@ public class BolsaPuntosRest {
         return Response.ok().build();
     }
 
-    private class ReqUso {
+    public static class ReqUso {
         Integer idCliente;
         Integer idConcepto;
     }

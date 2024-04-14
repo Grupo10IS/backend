@@ -46,10 +46,14 @@ public class BolsaPuntosDAO {
                 .addCondition("b.idCliente = :idCliente", "idCliente", idCliente)
                 .addCondition("b.puntosAsignados <= :puntosMax", "puntosMax", puntosMax)
                 .addCondition("b.puntosAsignados >= :puntosMin", "puntosMin", puntosMin)
-                .addCondition("b.fechaCaducidad >= :fecha", "fecha", LocalDate.now())
-                .addCondition("b.fechaCaducidad - :vencimiento <= 0", "vencimiento",
-                        LocalDate.now().plusDays(vencimiento))
-                .addText("and b.saldoPuntos > 0");
+                .addCondition("b.fechaCaducidad >= :fecha", "fecha", LocalDate.now());
+
+        if (vencimiento != null) {
+            qb.addCondition("b.fechaCaducidad - :vencimiento <= 0", "vencimiento",
+                    LocalDate.now().plusDays(vencimiento));
+        }
+
+        qb.addText("and b.saldoPuntos > 0");
 
         return (List<BolsaPuntos>) qb.build(this.em).getResultList();
     }
