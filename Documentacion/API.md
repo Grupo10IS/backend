@@ -6,7 +6,7 @@ Recieve: application/json
 ## Paths
 
 - [x] [/asignaciones](./endpoints/asignaciones.md)
-- [/bolsaPuntos](./endpoints/bolsaPuntos.md)
+- [x] [/bolsaPuntos](./endpoints/bolsaPuntos.md)
 - [x] [/cliente](./endpoints/cliente.md)
 - [x] [/conceptos](./endpoints/conceptos.md)
 - [x] [/cotizacion](./endpoints/cotizaciones.md)

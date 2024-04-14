@@ -23,11 +23,14 @@ public class BolsaPuntosRest {
     @GET
     public Response listarBolsasPuntos(
             @QueryParam("cliente") Integer idCliente,
-            @QueryParam("puntosasignados") Integer puntosasignados,
+            @QueryParam("puntosMinimos") Integer minPuntos,
+            @QueryParam("puntosMaximos") Integer maxPuntos,
             @QueryParam("vencimiento") Integer vencimiento) {
-        List<BolsaPuntos> bolsasPuntos = this.bolsaPuntosDAO.listarBolsasPuntos(idCliente, puntosasignados,
+
+        List<BolsaPuntos> bolsas = this.bolsaPuntosDAO.listarBolsasPuntos(idCliente, minPuntos, maxPuntos,
                 vencimiento);
-        return Response.ok().entity(bolsasPuntos).build();
+
+        return Response.ok().entity(bolsas).build();
     }
 
     private class ReqCarga {
@@ -51,13 +54,12 @@ public class BolsaPuntosRest {
         }
     }
 
-
     private class ReqUso {
         Integer idCliente;
         Integer idConcepto;
     }
 
-    @POST
+    @PUT
     @Path("/")
     public Response usarPuntos(ReqUso req) {
         try {
