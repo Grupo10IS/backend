@@ -1,13 +1,21 @@
 package py.com.progweb.parcial1.rest;
 
+import java.math.BigDecimal;
+import java.util.List;
+
 import javax.ejb.Stateless;
 import javax.inject.Inject;
-import javax.ws.rs.*;
+import javax.ws.rs.Consumes;
+import javax.ws.rs.GET;
+import javax.ws.rs.POST;
+import javax.ws.rs.PUT;
+import javax.ws.rs.Path;
+import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
-import java.math.BigDecimal;
-import java.util.List;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 import py.com.progweb.parcial1.ejb.BolsaPuntosDAO;
 import py.com.progweb.parcial1.model.bolsa.BolsaPuntos;
@@ -33,8 +41,10 @@ public class BolsaPuntosRest {
         return Response.ok().entity(bolsas).build();
     }
 
-    public static class ReqCarga {
+    private static class ReqCarga {
+        @JsonProperty("idCliente")
         Integer idCliente;
+        @JsonProperty("montoOperacion")
         BigDecimal montoOperacion;
     }
 
@@ -50,8 +60,10 @@ public class BolsaPuntosRest {
         return Response.ok().build();
     }
 
-    public static class ReqUso {
+    private static class ReqUso {
+        @JsonProperty("idCliente")
         Integer idCliente;
+        @JsonProperty("idConcepto")
         Integer idConcepto;
     }
 
