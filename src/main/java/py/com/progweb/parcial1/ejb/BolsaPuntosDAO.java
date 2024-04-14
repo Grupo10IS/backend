@@ -67,14 +67,6 @@ public class BolsaPuntosDAO {
         return (List<BolsaPuntos>) qb.build(this.em).getResultList();
     }
 
-    public BolsaPuntos buscarPorId(Integer id) {
-        return this.em.find(BolsaPuntos.class, id);
-    }
-
-    public void actualizarBolsaPuntos(BolsaPuntos bolsaPuntos) {
-        this.em.merge(bolsaPuntos);
-    }
-
     /**
      * anadir nuevos puntos a un cliente
      * Lorem ipsum dolor sit amet, officia excepteur ex fugiat reprehenderit enim
@@ -97,6 +89,12 @@ public class BolsaPuntosDAO {
         if (cliente == null) {
             return Response.status(Response.Status.BAD_REQUEST)
                     .entity("El usuario no existe")
+                    .build();
+        }
+
+        if (montoOperacion.compareTo(new BigDecimal(0)) == -1) {
+            return Response.status(Response.Status.BAD_REQUEST)
+                    .entity("Monto no puede ser negativo")
                     .build();
         }
 
@@ -136,15 +134,11 @@ public class BolsaPuntosDAO {
         Integer caducidad = reglasVenc.get(0).getDiasDuracionPuntaje();
 
         /* realizar la insercion de los datos dentro de la base de datos */
-        em.getTransaction().begin();
-
         em.persist(new BolsaPuntos(
                 cliente,
                 LocalDate.now().plusDays(caducidad),
                 puntosAsignados,
                 montoOperacion));
-
-        em.getTransaction().commit();
 
         return null;
     }
@@ -185,13 +179,13 @@ public class BolsaPuntosDAO {
         // Listar las bolsas activas del cliente
         QueryBuilder qb = new QueryBuilder("select b from BolsaPuntos b")
                 .addCondition("b.fechaCaducidad >= :fecha", "fecha", LocalDate.now())
-                .addText("b.saldoPuntos > 0")
+                .addText("and b.saldoPuntos > 0")
                 .addText("order by b.id asc");
 
         List<BolsaPuntos> bolsas = (List<BolsaPuntos>) qb.build(this.em).getResultList();
 
         if (bolsas == null || bolsas.isEmpty()) {
-            return Response.status(Response.Status.INTERNAL_SERVER_ERROR)
+            return Response.status(402)
                     .entity("El cliente no cuenta con los puntos necesarios")
                     .build();
         }
@@ -204,14 +198,12 @@ public class BolsaPuntosDAO {
 
         Integer puntosRequeridos = concepto.getPuntosRequeridos();
         if (saldo < puntosRequeridos) {
-            return Response.status(Response.Status.INTERNAL_SERVER_ERROR)
+            return Response.status(402)
                     .entity("El cliente no cuenta con los puntos necesarios")
                     .build();
         }
 
         // realizar la operacion
-        em.getTransaction().begin();
-
         Integer i = 0;
         while (puntosRequeridos > 0) {
             BolsaPuntos bolsa = bolsas.get(i);
@@ -230,8 +222,6 @@ public class BolsaPuntosDAO {
             em.persist(bolsa);
             i++;
         }
-
-        em.getTransaction().commit();
 
         return null;
     }
