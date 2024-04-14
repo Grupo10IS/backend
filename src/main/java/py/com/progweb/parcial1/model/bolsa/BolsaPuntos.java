@@ -46,6 +46,10 @@ public class BolsaPuntos {
     @Column(name = "monto_operacion")
     private BigDecimal montoOperacion;
 
+    public BolsaPuntos() {
+
+    }
+
     public BolsaPuntos(Cliente cliente, LocalDate fechaCaducidad, Integer puntajeAsignado, BigDecimal montoOperacion) {
         this.cliente = cliente;
         this.fechaCaducidad = fechaCaducidad;

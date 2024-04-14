@@ -7,7 +7,6 @@ import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import javax.persistence.Query;
 import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.Response;
 
@@ -48,7 +47,8 @@ public class BolsaPuntosDAO {
                 .addCondition("b.puntosAsignados <= :puntosMax", "puntosMax", puntosMax)
                 .addCondition("b.puntosAsignados >= :puntosMin", "puntosMin", puntosMin)
                 .addCondition("b.fechaCaducidad >= :fecha", "fecha", LocalDate.now())
-                .addCondition("b.fechaCaducidad - b.fechaAsignacion = :vencimiento", "vencimiento", vencimiento)
+                .addCondition("b.fechaCaducidad - :vencimiento <= 0", "vencimiento",
+                        LocalDate.now().plusDays(vencimiento))
                 .addText("and b.saldoPuntos > 0");
 
         return (List<BolsaPuntos>) qb.build(this.em).getResultList();

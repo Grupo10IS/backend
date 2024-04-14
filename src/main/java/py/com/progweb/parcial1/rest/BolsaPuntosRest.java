@@ -41,17 +41,13 @@ public class BolsaPuntosRest {
     @POST
     @Path("/")
     public Response cargarPuntos(ReqCarga req) {
-        try {
-            if (req.idCliente == null || req.montoOperacion == null) {
-                return Response.status(Response.Status.BAD_REQUEST).entity("Faltan campos en la request").build();
-            }
-
-            this.bolsaPuntosDAO.cargarPuntos(req.idCliente, req.montoOperacion);
-
-            return Response.ok().build();
-        } catch (Exception arei) {
-            return Response.status(Response.Status.BAD_REQUEST).entity(arei.getMessage()).build();
+        if (req == null || req.idCliente == null || req.montoOperacion == null) {
+            return Response.status(Response.Status.BAD_REQUEST).entity("Faltan campos en la request").build();
         }
+
+        this.bolsaPuntosDAO.cargarPuntos(req.idCliente, req.montoOperacion);
+
+        return Response.ok().build();
     }
 
     private class ReqUso {
