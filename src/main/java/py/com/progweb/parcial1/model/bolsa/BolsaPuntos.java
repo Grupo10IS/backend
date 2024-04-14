@@ -38,15 +38,27 @@ public class BolsaPuntos {
     private Integer puntajeAsignado;
 
     @Column(name = "puntaje_utilizado")
-    private Integer puntajeUtilizado = 0;
+    private Integer puntajeUtilizado;
 
     @Column(name = "saldo_puntos")
-    private BigDecimal saldoPuntos;
+    private Integer saldoPuntos;
 
     @Column(name = "monto_operacion")
     private BigDecimal montoOperacion;
 
     public BolsaPuntos() {
+
+    }
+
+    public BolsaPuntos(Cliente cliente, LocalDate fechaCaducidad, Integer puntajeAsignado, BigDecimal montoOperacion) {
+        this.cliente = cliente;
+        this.fechaCaducidad = fechaCaducidad;
+        this.puntajeAsignado = puntajeAsignado;
+        this.montoOperacion = montoOperacion;
+
+        this.fechaAsignacion = LocalDate.now();
+        this.puntajeUtilizado = 0;
+        this.saldoPuntos = puntajeAsignado;
     }
 
     public Integer getId() {
@@ -97,11 +109,11 @@ public class BolsaPuntos {
         this.puntajeUtilizado = puntajeUtilizado;
     }
 
-    public BigDecimal getSaldoPuntos() {
+    public Integer getSaldoPuntos() {
         return saldoPuntos;
     }
 
-    public void setSaldoPuntos(BigDecimal saldoPuntos) {
+    public void setSaldoPuntos(Integer saldoPuntos) {
         this.saldoPuntos = saldoPuntos;
     }
 
