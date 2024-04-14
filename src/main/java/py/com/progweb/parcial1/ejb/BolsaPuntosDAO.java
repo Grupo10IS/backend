@@ -7,7 +7,6 @@ import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.Response;
 
 import py.com.progweb.parcial1.model.Cliente;
@@ -29,6 +28,16 @@ public class BolsaPuntosDAO {
 
     /**
      * Listar las bolsas activas y con puntos del cliente
+     * Lorem ipsum dolor sit amet, officia excepteur ex fugiat reprehenderit enim
+     * labore culpa sint ad nisi Lorem pariatur mollit ex esse exercitation amet.
+     * Nisi anim cupidatat excepteur officia. Reprehenderit nostrud nostrud ipsum
+     * Lorem est aliquip amet voluptate voluptate dolor minim nulla est proident.
+     * Nostrud officia pariatur ut officia. Sit irure elit esse ea nulla sunt ex
+     * occaecat reprehenderit commodo officia dolor Lorem duis laboris cupidatat
+     * officia voluptate. Culpa proident adipisicing id nulla nisi laboris ex in
+     * Lorem sunt duis officia eiusmod. Aliqua reprehenderit commodo ex non
+     * excepteur duis sunt velit enim. Voluptate laboris sint cupidatat ullamco ut
+     * ea consectetur et est culpa et culpa duis.
      * 
      * @param idCliente
      * @param puntosMin,
@@ -68,36 +77,50 @@ public class BolsaPuntosDAO {
 
     /**
      * anadir nuevos puntos a un cliente
+     * Lorem ipsum dolor sit amet, officia excepteur ex fugiat reprehenderit enim
+     * labore culpa sint ad nisi Lorem pariatur mollit ex esse exercitation amet.
+     * Nisi anim cupidatat excepteur officia. Reprehenderit nostrud nostrud ipsum
+     * Lorem est aliquip amet voluptate voluptate dolor minim nulla est proident.
+     * Nostrud officia pariatur ut officia. Sit irure elit esse ea nulla sunt ex
+     * occaecat reprehenderit commodo officia dolor Lorem duis laboris cupidatat
+     * officia voluptate. Culpa proident adipisicing id nulla nisi laboris ex in
+     * Lorem sunt duis officia eiusmod. Aliqua reprehenderit commodo ex non
+     * excepteur duis sunt velit enim. Voluptate laboris sint cupidatat ullamco ut
+     * ea consectetur et est culpa et culpa duis.
      *
      * @param idCliente
      * @param montoOperacion
      */
-    public void cargarPuntos(Integer idCliente, BigDecimal montoOperacion) {
+    public Response cargarPuntos(Integer idCliente, BigDecimal montoOperacion) {
         Cliente cliente = em.find(Cliente.class, idCliente);
 
         if (cliente == null) {
-            throw new WebApplicationException(
-                    Response.status(Response.Status.BAD_REQUEST)
-                            .entity("El usuario no existe")
-                            .build());
+            return Response.status(Response.Status.BAD_REQUEST)
+                    .entity("El usuario no existe")
+                    .build();
         }
 
-        // traer el monto de equivalencia en puntos
+        /*
+         * traer la regla de asignacion de puntos activa y asignar el monto de
+         * equivalencia por cada punto
+         */
         List<ReglasAsignacion> request = (List<ReglasAsignacion>) em.createQuery(
                 "SELECT r FROM ReglasAsignacion r").getResultList();
 
         if (request == null || request.isEmpty()) {
-            throw new WebApplicationException(
-                    Response.status(Response.Status.INTERNAL_SERVER_ERROR)
-                            .entity("No existen reglas de asignacion de puntos activas")
-                            .build());
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR)
+                    .entity("No existen reglas de asignacion de puntos activas")
+                    .build();
         }
 
         ReglasAsignacion reglaAsig = request.get(0);
         BigDecimal equivalencia = new BigDecimal(reglaAsig.getMontoEquivalencia());
         int puntosAsignados = montoOperacion.divide(equivalencia).intValue();
 
-        // asignar una fecha de caducidad
+        /*
+         * asignar una fecha de caducidad acorde a las reglas de caducidad activas
+         * actualmente dentro de la aplicacion
+         */
         QueryBuilder qb = new QueryBuilder("select v from VencimientosPuntos v")
                 .addCondition("v.fechaFinValidez >= :fecha", "fecha", LocalDate.now())
                 .addText("order by v.id asc");
@@ -105,15 +128,14 @@ public class BolsaPuntosDAO {
         List<VencimientosPuntos> reglasVenc = (List<VencimientosPuntos>) qb.build(this.em).getResultList();
 
         if (reglasVenc == null || reglasVenc.isEmpty()) {
-            throw new WebApplicationException(
-                    Response.status(Response.Status.INTERNAL_SERVER_ERROR)
-                            .entity("No existen reglas de asignacion fechas de vencimiento")
-                            .build());
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR)
+                    .entity("No existen reglas de asignacion fechas de vencimiento")
+                    .build();
         }
 
         Integer caducidad = reglasVenc.get(0).getDiasDuracionPuntaje();
 
-        // realizar la insercion
+        /* realizar la insercion de los datos dentro de la base de datos */
         em.getTransaction().begin();
 
         em.persist(new BolsaPuntos(
@@ -123,31 +145,41 @@ public class BolsaPuntosDAO {
                 montoOperacion));
 
         em.getTransaction().commit();
+
+        return null;
     }
 
     /**
      * utilizar una cantidad de puntos del cliente
+     * Lorem ipsum dolor sit amet, officia excepteur ex fugiat reprehenderit enim
+     * labore culpa sint ad nisi Lorem pariatur mollit ex esse exercitation amet.
+     * Nisi anim cupidatat excepteur officia. Reprehenderit nostrud nostrud ipsum
+     * Lorem est aliquip amet voluptate voluptate dolor minim nulla est proident.
+     * Nostrud officia pariatur ut officia. Sit irure elit esse ea nulla sunt ex
+     * occaecat reprehenderit commodo officia dolor Lorem duis laboris cupidatat
+     * officia voluptate. Culpa proident adipisicing id nulla nisi laboris ex in
+     * Lorem sunt duis officia eiusmod. Aliqua reprehenderit commodo ex non
+     * excepteur duis sunt velit enim. Voluptate laboris sint cupidatat ullamco ut
+     * ea consectetur et est culpa et culpa duis.
      *
      * @param idCliente
      * @param montoOperacion
      */
-    public void usarPuntos(Integer idCliente, Integer idConcepto) {
+    public Response usarPuntos(Integer idCliente, Integer idConcepto) {
         // traer el cliente
         Cliente cliente = em.find(Cliente.class, idCliente);
         if (cliente == null) {
-            throw new WebApplicationException(
-                    Response.status(Response.Status.BAD_REQUEST)
-                            .entity("El usuario no existe")
-                            .build());
+            return Response.status(Response.Status.BAD_REQUEST)
+                    .entity("El usuario no existe")
+                    .build();
         }
 
         // traer el concepto de uso
         ConceptoUsos concepto = em.find(ConceptoUsos.class, idConcepto);
         if (concepto == null) {
-            throw new WebApplicationException(
-                    Response.status(Response.Status.BAD_REQUEST)
-                            .entity("El concepto no existe no existe")
-                            .build());
+            return Response.status(Response.Status.BAD_REQUEST)
+                    .entity("El concepto no existe no existe")
+                    .build();
         }
 
         // Listar las bolsas activas del cliente
@@ -159,10 +191,9 @@ public class BolsaPuntosDAO {
         List<BolsaPuntos> bolsas = (List<BolsaPuntos>) qb.build(this.em).getResultList();
 
         if (bolsas == null || bolsas.isEmpty()) {
-            throw new WebApplicationException(
-                    Response.status(Response.Status.INTERNAL_SERVER_ERROR)
-                            .entity("El cliente no cuenta con los puntos necesarios")
-                            .build());
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR)
+                    .entity("El cliente no cuenta con los puntos necesarios")
+                    .build();
         }
 
         // hacer el recuento de puntos del cliente
@@ -173,10 +204,9 @@ public class BolsaPuntosDAO {
 
         Integer puntosRequeridos = concepto.getPuntosRequeridos();
         if (saldo < puntosRequeridos) {
-            throw new WebApplicationException(
-                    Response.status(Response.Status.INTERNAL_SERVER_ERROR)
-                            .entity("El cliente no cuenta con los puntos necesarios")
-                            .build());
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR)
+                    .entity("El cliente no cuenta con los puntos necesarios")
+                    .build();
         }
 
         // realizar la operacion
@@ -202,5 +232,7 @@ public class BolsaPuntosDAO {
         }
 
         em.getTransaction().commit();
+
+        return null;
     }
 }
