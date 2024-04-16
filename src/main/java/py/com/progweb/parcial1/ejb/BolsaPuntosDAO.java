@@ -3,8 +3,15 @@ package py.com.progweb.parcial1.ejb;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Properties;
 
 import javax.ejb.Stateless;
+import javax.mail.Message;
+import javax.mail.MessagingException;
+import javax.mail.Session;
+import javax.mail.Transport;
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeMessage;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.ws.rs.core.Response;
@@ -223,6 +230,38 @@ public class BolsaPuntosDAO {
             i++;
         }
 
+        // notificar al cliente que se utilizaron los puntos
+        mandarMail(cliente.getEmail());
+
         return null;
     }
+
+    private static void mandarMail(String correo) {
+        // setting up destino y mandador
+        String recipient = correo;
+        String sender = "sender@gmail.com";
+
+        // setting up mail server
+        String host = "127.0.0.1";
+        Properties properties = System.getProperties();
+        properties.setProperty("mail.smtp.host", host);
+        Session session = Session.getDefaultInstance(properties);
+
+        try {
+            // set mail properties
+            MimeMessage message = new MimeMessage(session);
+            message.setFrom(new InternetAddress(sender));
+            message.addRecipient(Message.RecipientType.TO, new InternetAddress(recipient));
+
+            // set mail message
+            message.setSubject("Comprobante de utilizacion de puntos");
+            message.setText("La compra de vales mediante puntos se ha realizado exitosamente");
+
+            // Send email.
+            Transport.send(message);
+            System.out.println("Mail successfully sent");
+        } catch (MessagingException mex) {
+        }
+    };
+
 }
