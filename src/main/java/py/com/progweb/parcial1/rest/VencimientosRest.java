@@ -8,6 +8,7 @@ import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
+import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
@@ -29,6 +30,14 @@ public class VencimientosRest {
 
     @POST
     public Response agregarRegla(VencimientosPuntos regla) {
+        if (regla.getFechaFinValidez() == null || regla.getFechaInicioValidez() == null ||
+                regla.getDiasDuracionPuntaje() == null) {
+            throw new WebApplicationException(
+                    Response.status(Response.Status.BAD_REQUEST)
+                            .entity("Campos incompletos")
+                            .build());
+        }
+
         this.vDAO.agregarVencimiento(regla);
         return Response.ok().build();
     }

@@ -23,7 +23,7 @@ public class ConceptoDAO {
     private EntityManager em;
 
     public void agregarConcepto(ConceptoUsos entidad) {
-        if (!(entidad.getIdConcepto() > 0)) {
+        if (!(entidad.getPuntosRequeridos() > 0)) {
             throw new WebApplicationException(
                     Response.status(Response.Status.BAD_REQUEST)
                             .entity("Monto de operacion no puede ser negativo o 0")

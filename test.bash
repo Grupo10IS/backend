@@ -10,6 +10,12 @@
 # Utilidades
 pass=true
 
+color_Off='\033[0m'       # Text Reset
+
+# Regular Colors
+Red='\033[0;31m'          # Red
+Green='\033[0;32m'        # Green
+
 # Usage: curl_req (method) (status) "(endopoint)" '[data]'
 curl_req() {
 	method=$1
@@ -23,11 +29,12 @@ curl_req() {
 
 	if [[ -z "$status" ]]; then
 		pass=false
+        echo -e "$Red- Test failed$color_Off"
 		echo "Esperado: $s"
 		echo "Respuesta recibido: $status"
         echo "Body: $resp"
     else
-        echo "- Test passed"
+        echo -e "$Green- Test passed$color_Off"
 	fi
 
 }
@@ -182,7 +189,7 @@ curl_req get 200 "conceptos"
 echo -e " \n- POST"
 
 # Peticion valida
-curl_req post 200 "conceptos" '{"puntosRequeridos": 3, "descripcion": "vale de comida"}'
+curl_req post 204 "conceptos" '{"puntosRequeridos": 3, "descripcion": "vale de comida"}'
 
 # Peticion invalida. Incompletos
 curl_req post 400 "conceptos" '{"puntosRequeridos": 3}'
