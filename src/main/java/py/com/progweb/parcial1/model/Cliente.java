@@ -11,6 +11,10 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+
+import py.com.progweb.parcial1.utils.LocalDateDeserializer;
+
 @Entity
 @Table(name = "cliente")
 public class Cliente {
@@ -55,6 +59,7 @@ public class Cliente {
 
     @Column(name = "fecha_nacimiento")
     @Basic(optional = true)
+    @JsonDeserialize(using = LocalDateDeserializer.class)  
     private LocalDate nacimiento;
 
     public Cliente() {

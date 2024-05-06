@@ -1,12 +1,23 @@
 package py.com.progweb.parcial1.model.bolsa;
 
-import javax.persistence.*;
+import java.time.LocalDate;
+
+import javax.persistence.Basic;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
+
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
 import py.com.progweb.parcial1.model.Cliente;
 import py.com.progweb.parcial1.model.ConceptoUsos;
-
-import java.time.LocalDate;
+import py.com.progweb.parcial1.utils.LocalDateDeserializer;
 
 @Entity
 @Table(name = "puntos_usados")
@@ -29,6 +40,7 @@ public class PuntosUsados {
     @Column(name = "fecha")
     @Basic(optional = false)
     @NotNull
+    @JsonDeserialize(using = LocalDateDeserializer.class)
     private LocalDate fecha;
 
     @ManyToOne

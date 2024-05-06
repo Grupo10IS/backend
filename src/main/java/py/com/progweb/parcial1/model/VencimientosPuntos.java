@@ -11,6 +11,10 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+
+import py.com.progweb.parcial1.utils.LocalDateDeserializer;
+
 @Entity
 @Table(name = "vencimientos_puntos")
 public class VencimientosPuntos {
@@ -22,11 +26,13 @@ public class VencimientosPuntos {
     @Column(name = "fecha_inicio_validez")
     @Basic(optional = false)
     @NotNull
+    @JsonDeserialize(using = LocalDateDeserializer.class)
     private LocalDate fechaInicioValidez;
 
     @Column(name = "fecha_fin_validez")
     @Basic(optional = false)
     @NotNull
+    @JsonDeserialize(using = LocalDateDeserializer.class)
     private LocalDate fechaFinValidez;
 
     @Column(name = "dias_duracion_puntaje")

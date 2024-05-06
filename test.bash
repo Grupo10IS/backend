@@ -53,6 +53,7 @@ fi
 if [[ -z "$resp" ]]; then
 	pass=false
 	echo "La respuesta del servidor esta vacia"
+    exit 1
 fi
 
 #### Metodo PUT
@@ -181,13 +182,13 @@ curl_req get 200 "conceptos"
 echo -e " \n- POST"
 
 # Peticion valida
-# curl_req post 200 "conceptos" '{"puntosRequeridos": 3, "descripcion": "vale de comida"}'
-#
-# # Peticion invalida. Incompletos
-# curl_req post 400 "conceptos" '{"puntosRequeridos": 3}'
-#
-# # Peticion invalida. Monto negativo
-# curl_req post 400 "conceptos" '{"puntosRequeridos": -3, "descripcion": "vale de comida"}'
+curl_req post 200 "conceptos" '{"puntosRequeridos": 3, "descripcion": "vale de comida"}'
+
+# Peticion invalida. Incompletos
+curl_req post 400 "conceptos" '{"puntosRequeridos": 3}'
+
+# Peticion invalida. Monto negativo
+curl_req post 400 "conceptos" '{"puntosRequeridos": -3, "descripcion": "vale de comida"}'
 
 # -------------------
 # | "/cotizaciones" |
@@ -217,7 +218,7 @@ curl_req get 200 "puntosUsados"
 # -------------------
 # | "/vencimientos" |
 # -------------------
-echo -e "\n\nTEST /vencimientos"
+echo -e "\n\nTEST /vencimientosPuntos"
 
 #### Metodo GET
 echo -e " \n- GET"
@@ -232,24 +233,24 @@ echo -e " \n- POST"
 curl_req post 200 "vencimientosPuntos" '{
     "fechaInicioValidez": "2020-01-01",
     "fechaFinValidez": "2020-05-01",
-    "diasDuracionPuntaje": 15,
+    "diasDuracionPuntaje": 15
 }'
 
 # Peticion invalida. Incompleto
 curl_req post 400 "vencimientosPuntos" '{
-    "fechaInicioValidez": "2020-01-01",
+    "fechaInicioValidez": "2020-01-01"
 }'
 
 # Peticion invalida. Formato de fecha incorrecto
 curl_req post 400 "vencimientosPuntos" '{
     "fechaInicioValidez": "01-01-2020",
     "fechaFinValidez": "2020-05-01",
-    "diasDuracionPuntaje": 15,
+    "diasDuracionPuntaje": 15
 }'
 
 # Peticion invalida. Formato de fecha incorrecto
 curl_req post 400 "vencimientosPuntos" '{
     "fechaFinValidez": "01-01-2020",
     "fechaInicioValidez": "2020-05-01",
-    "diasDuracionPuntaje": 15,
+    "diasDuracionPuntaje": 15
 }'
