@@ -59,7 +59,7 @@ CREATE TABLE IF NOT EXISTS puntos_usados (
     fecha DATE NOT NULL,
     concepto INT NOT NULL,
 
-    CONSTRAINT fk_puntos_cliente FOREIGN KEY(cliente_id) REFERENCES cliente(id)
+    CONSTRAINT fk_puntos_cliente FOREIGN KEY(cliente_id) REFERENCES cliente(id),
     CONSTRAINT fk_puntos_concepto FOREIGN KEY(concepto) REFERENCES conceptos_uso_puntos(id)
 );
 
