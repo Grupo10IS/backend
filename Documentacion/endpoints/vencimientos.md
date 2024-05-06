@@ -19,7 +19,7 @@
 
     - _POST_:
       anadir una nueva regla de vencimiento de puntos
-         - Response:
+         - Request:
             ```json
             {
                 "fechaInicioValidez": "yyyy-mm-dd",

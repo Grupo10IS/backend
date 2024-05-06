@@ -21,4 +21,3 @@
                 "descripcion": "vale de comida",
             }
             ```
-

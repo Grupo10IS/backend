@@ -40,11 +40,6 @@ public class BolsaPuntosDAO {
      * Nisi anim cupidatat excepteur officia. Reprehenderit nostrud nostrud ipsum
      * Lorem est aliquip amet voluptate voluptate dolor minim nulla est proident.
      * Nostrud officia pariatur ut officia. Sit irure elit esse ea nulla sunt ex
-     * occaecat reprehenderit commodo officia dolor Lorem duis laboris cupidatat
-     * officia voluptate. Culpa proident adipisicing id nulla nisi laboris ex in
-     * Lorem sunt duis officia eiusmod. Aliqua reprehenderit commodo ex non
-     * excepteur duis sunt velit enim. Voluptate laboris sint cupidatat ullamco ut
-     * ea consectetur et est culpa et culpa duis.
      * 
      * @param idCliente
      * @param puntosMin,
@@ -76,16 +71,6 @@ public class BolsaPuntosDAO {
 
     /**
      * anadir nuevos puntos a un cliente
-     * Lorem ipsum dolor sit amet, officia excepteur ex fugiat reprehenderit enim
-     * labore culpa sint ad nisi Lorem pariatur mollit ex esse exercitation amet.
-     * Nisi anim cupidatat excepteur officia. Reprehenderit nostrud nostrud ipsum
-     * Lorem est aliquip amet voluptate voluptate dolor minim nulla est proident.
-     * Nostrud officia pariatur ut officia. Sit irure elit esse ea nulla sunt ex
-     * occaecat reprehenderit commodo officia dolor Lorem duis laboris cupidatat
-     * officia voluptate. Culpa proident adipisicing id nulla nisi laboris ex in
-     * Lorem sunt duis officia eiusmod. Aliqua reprehenderit commodo ex non
-     * excepteur duis sunt velit enim. Voluptate laboris sint cupidatat ullamco ut
-     * ea consectetur et est culpa et culpa duis.
      *
      * @param idCliente
      * @param montoOperacion
@@ -123,7 +108,7 @@ public class BolsaPuntosDAO {
         int puntosAsignados = montoOperacion.divide(equivalencia).intValue();
 
         /*
-         * asignar una fecha de caducidad acorde a las reglas de caducidad activas
+         * Asignar una fecha de caducidad acorde a las reglas de caducidad activas
          * actualmente dentro de la aplicacion
          */
         QueryBuilder qb = new QueryBuilder("select v from VencimientosPuntos v")
@@ -152,16 +137,6 @@ public class BolsaPuntosDAO {
 
     /**
      * utilizar una cantidad de puntos del cliente
-     * Lorem ipsum dolor sit amet, officia excepteur ex fugiat reprehenderit enim
-     * labore culpa sint ad nisi Lorem pariatur mollit ex esse exercitation amet.
-     * Nisi anim cupidatat excepteur officia. Reprehenderit nostrud nostrud ipsum
-     * Lorem est aliquip amet voluptate voluptate dolor minim nulla est proident.
-     * Nostrud officia pariatur ut officia. Sit irure elit esse ea nulla sunt ex
-     * occaecat reprehenderit commodo officia dolor Lorem duis laboris cupidatat
-     * officia voluptate. Culpa proident adipisicing id nulla nisi laboris ex in
-     * Lorem sunt duis officia eiusmod. Aliqua reprehenderit commodo ex non
-     * excepteur duis sunt velit enim. Voluptate laboris sint cupidatat ullamco ut
-     * ea consectetur et est culpa et culpa duis.
      *
      * @param idCliente
      * @param montoOperacion
@@ -231,12 +206,12 @@ public class BolsaPuntosDAO {
         }
 
         // notificar al cliente que se utilizaron los puntos
-        mandarMail(cliente.getEmail());
+        notificarEmail(cliente.getEmail());
 
         return null;
     }
 
-    private static void mandarMail(String correo) {
+    private static void notificarEmail(String correo) {
         // setting up destino y mandador
         String recipient = correo;
         String sender = "sender@gmail.com";

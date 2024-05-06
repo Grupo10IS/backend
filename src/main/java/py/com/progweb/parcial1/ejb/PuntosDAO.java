@@ -5,6 +5,7 @@ Transforma las entidades que recibimos del ORM y hacemos algo usando el widfly
 */
 package py.com.progweb.parcial1.ejb;
 
+import java.time.DateTimeException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
