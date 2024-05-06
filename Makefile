@@ -9,6 +9,9 @@ PATH:=/usr/lib/jvm/java-8-openjdk/bin/:$(PATH)
 package:
 	mvn clean package
 
+test:
+	bash ./test.bash
+
 install:
 	mvn clean package
 
