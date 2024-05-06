@@ -21,6 +21,8 @@ import py.com.progweb.parcial1.model.ConceptoUsos;
 import py.com.progweb.parcial1.model.ReglasAsignacion;
 import py.com.progweb.parcial1.model.VencimientosPuntos;
 import py.com.progweb.parcial1.model.bolsa.BolsaPuntos;
+import py.com.progweb.parcial1.model.bolsa.DetallePuntos;
+import py.com.progweb.parcial1.model.bolsa.PuntosUsados;
 import py.com.progweb.parcial1.utils.QueryBuilder;
 
 @Stateless
@@ -161,12 +163,13 @@ public class BolsaPuntosDAO {
         // Listar las bolsas activas del cliente
         QueryBuilder qb = new QueryBuilder("select b from BolsaPuntos b")
                 .addCondition("b.fechaCaducidad >= :fecha", "fecha", LocalDate.now())
+                .addCondition("b.cliente = :cliente", "cliente", cliente)
                 .addText("and b.saldoPuntos > 0")
                 .addText("order by b.id asc");
 
         List<BolsaPuntos> bolsas = (List<BolsaPuntos>) qb.build(this.em).getResultList();
 
-        if (bolsas == null || bolsas.isEmpty()) {
+        if (bolsas == null || bolsas.size() == 0) {
             return Response.status(402)
                     .entity("El cliente no cuenta con los puntos necesarios")
                     .build();
@@ -190,18 +193,34 @@ public class BolsaPuntosDAO {
         while (puntosRequeridos > 0) {
             BolsaPuntos bolsa = bolsas.get(i);
 
+            // crear el punto utilizado
+            PuntosUsados pu = new PuntosUsados();
+            pu.setCliente(cliente);
+            pu.setConcepto(concepto);
+            pu.setFecha(LocalDate.now());
+
             if (bolsa.getSaldoPuntos() < puntosRequeridos) {
                 bolsa.setPuntajeUtilizado(bolsa.getPuntajeAsignado());
+                pu.setPuntajeUtilizado(bolsa.getSaldoPuntos());
                 puntosRequeridos -= bolsa.getSaldoPuntos();
                 bolsa.setSaldoPuntos(0);
 
             } else {
+                pu.setPuntajeUtilizado(puntosRequeridos);
                 bolsa.setPuntajeUtilizado(bolsa.getPuntajeUtilizado() + puntosRequeridos);
                 bolsa.setSaldoPuntos(bolsa.getPuntajeAsignado() - bolsa.getPuntajeUtilizado());
                 puntosRequeridos = 0;
             }
 
+            // crear el detalle de puntos utilizados
+            DetallePuntos dp = new DetallePuntos();
+            dp.setBolsa(bolsa);
+            dp.setPuntosUsados(pu);
+
             em.persist(bolsa);
+            em.persist(pu);
+            em.persist(dp);
+
             i++;
         }
 

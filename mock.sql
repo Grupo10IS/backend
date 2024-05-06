@@ -4,7 +4,8 @@ INSERT INTO conceptos_uso_puntos (descripcion, puntos_requeridos) VALUES
 ('Compra de productos', 50),
 ('Descuento en tiendas asociadas', 100),
 ('Regalo de aniversario', 200),
-('Canje de puntos por efectivo', 500);
+('Canje de puntos por efectivo', 500),
+('Saldo insuficiente', 5000000);
 
 -- Insertar 10 clientes adicionales
 ALTER SEQUENCE public.cliente_id_seq RESTART WITH 1;
@@ -49,31 +50,3 @@ INSERT INTO bolsa_puntos (cliente_id, fecha_asignacion, fecha_caducidad, puntaje
 (8, '2024-01-01', '2024-12-31', 1800, 700, 1100, 1000.75),
 (9, '2024-01-01', '2024-12-31', 750, 100, 650, 300.25),
 (10, '2024-01-01', '2024-12-31', 1100, 200, 900, 500.50);
-
--- Insertar puntos usados adicionales para cada cliente
-ALTER SEQUENCE public.puntos_usados_id_seq RESTART WITH 1;
-INSERT INTO puntos_usados (cliente_id, puntaje_utilizado, fecha, concepto) VALUES
-(1, 200, '2024-05-01', 1),
-(2, 100, '2024-05-02', 2),
-(3, 150, '2024-05-03', 3),
-(4, 300, '2024-05-04', 1),
-(5, 250, '2024-05-05', 2),
-(6, 180, '2024-05-06', 4),
-(7, 400, '2024-05-07', 1),
-(8, 150, '2024-05-08', 2),
-(9, 200, '2024-05-09', 3),
-(10, 350, '2024-05-10', 4);
-
--- Insertar detalle de puntos usados adicionales
-ALTER SEQUENCE public.detalle_puntos_usados_id_seq RESTART WITH 1;
-INSERT INTO detalle_puntos_usados (puntos_usados_id, bolsa_id, puntaje_utilizado) VALUES
-(1, 1, 200),
-(2, 2, 100),
-(3, 3, 150),
-(4, 4, 300),
-(5, 5, 250),
-(6, 6, 180),
-(7, 7, 400),
-(8, 8, 150),
-(9, 9, 200),
-(10, 10, 350);

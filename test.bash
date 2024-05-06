@@ -117,6 +117,10 @@ curl_req put 400 "bolsaPuntos" '{"idConcepto": 2000, "idCliente": 1}'
 # Peticion invalida. Campos incompletos
 curl_req put 400 "bolsaPuntos" '{"idCliente": 1}'
 
+# Peticion invalida. Cliente saldo insuficiente
+curl_req put 402 "bolsaPuntos" '{"idConcepto": 5, "idCliente": 1}'
+
+
 # --------------
 # | "/cliente" |
 # --------------

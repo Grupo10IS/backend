@@ -58,10 +58,9 @@ CREATE TABLE IF NOT EXISTS puntos_usados (
 
 CREATE TABLE IF NOT EXISTS detalle_puntos_usados (
     id SERIAL PRIMARY KEY,
+
     puntos_usados_id INT NOT NULL,
     bolsa_id INT NOT NULL,
-
-    puntaje_utilizado INT NOT NULL,
 
     CONSTRAINT fk_puntos_usados FOREIGN KEY(puntos_usados_id) REFERENCES puntos_usados(id),
     CONSTRAINT fk_bolsa FOREIGN KEY(bolsa_id) REFERENCES bolsa_puntos(id)

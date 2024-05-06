@@ -70,4 +70,24 @@ public class PuntosUsados {
     public ConceptoUsos getConcepto() {
         return concepto;
     }
+
+	public void setId(Integer id) {
+		this.id = id;
+	}
+
+	public void setCliente(Cliente cliente) {
+		this.cliente = cliente;
+	}
+
+	public void setPuntajeUtilizado(Integer puntajeUtilizado) {
+		this.puntajeUtilizado = puntajeUtilizado;
+	}
+
+	public void setFecha(LocalDate fecha) {
+		this.fecha = fecha;
+	}
+
+	public void setConcepto(ConceptoUsos concepto) {
+		this.concepto = concepto;
+	}
 }

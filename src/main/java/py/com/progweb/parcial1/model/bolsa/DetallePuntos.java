@@ -21,11 +21,6 @@ public class DetallePuntos {
     @NotNull
     private BolsaPuntos bolsa;
 
-    @Column(name = "puntaje_utilizado")
-    @Basic(optional = false)
-    @NotNull
-    private Integer puntajeUtilizado;
-
     public DetallePuntos() {
     }
 
@@ -51,13 +46,5 @@ public class DetallePuntos {
 
     public void setBolsa(BolsaPuntos bolsa) {
         this.bolsa = bolsa;
-    }
-
-    public Integer getPuntajeUtilizado() {
-        return puntajeUtilizado;
-    }
-
-    public void setPuntajeUtilizado(Integer puntajeUtilizado) {
-        this.puntajeUtilizado = puntajeUtilizado;
     }
 }
