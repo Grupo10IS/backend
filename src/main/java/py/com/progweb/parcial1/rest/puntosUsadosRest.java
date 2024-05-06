@@ -20,7 +20,7 @@ import py.com.progweb.parcial1.ejb.PuntosDAO;
 import py.com.progweb.parcial1.model.bolsa.DetallePuntos;
 
 @Stateless
-@Path("/conceptos")
+@Path("/puntosUsados")
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
 public class puntosUsadosRest {

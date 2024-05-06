@@ -1,8 +1,3 @@
-CREATE TABLE IF NOT EXISTS tipo_documento (
-    id SERIAL PRIMARY KEY,
-    tipo varchar(20) NOT NULL
-);
-
 CREATE TABLE IF NOT EXISTS conceptos_uso_puntos (
     id SERIAL PRIMARY KEY,
     descripcion VARCHAR(255) NOT NULL,
@@ -19,9 +14,7 @@ CREATE TABLE IF NOT EXISTS cliente (
     nacionalidad VARCHAR(50) NOT NULL,
     email VARCHAR(100) NOT NULL,
     telefono VARCHAR(20),
-    fecha_nacimiento DATE NOT NULL,
-
-    CONSTRAINT fk_tipo_documento FOREIGN KEY(tipo_documento) REFERENCES tipo_documento(id)
+    fecha_nacimiento DATE NOT NULL
 );
 
 CREATE TABLE IF NOT EXISTS reglas_asignacion_puntos (
@@ -73,6 +66,3 @@ CREATE TABLE IF NOT EXISTS detalle_puntos_usados (
     CONSTRAINT fk_puntos_usados FOREIGN KEY(puntos_usados_id) REFERENCES puntos_usados(id),
     CONSTRAINT fk_bolsa FOREIGN KEY(bolsa_id) REFERENCES bolsa_puntos(id)
 );
-INSERT INTO tipo_documento (tipo) VALUES
-('cedula'),
-('ruc');

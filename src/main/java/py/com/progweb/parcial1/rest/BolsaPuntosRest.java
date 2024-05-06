@@ -44,7 +44,7 @@ public class BolsaPuntosRest {
     private static class ReqCarga {
         @JsonProperty("idCliente")
         Integer idCliente;
-        @JsonProperty("montoOperacion")
+        @JsonProperty("monto")
         BigDecimal montoOperacion;
     }
 

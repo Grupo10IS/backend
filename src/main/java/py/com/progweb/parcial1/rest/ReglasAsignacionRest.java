@@ -3,8 +3,10 @@ package py.com.progweb.parcial1.rest;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
 import javax.ws.rs.GET;
+import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
 import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
@@ -30,5 +32,20 @@ public class ReglasAsignacionRest {
                             .build());
         }
         return Response.ok(reglaEquivalencia).build();
+    }
+
+    @PUT
+    @Path("/")
+    public Response putReglasEquivalencia(@QueryParam("monto") Integer puntos) {
+        if (puntos == null) {
+            throw new WebApplicationException(
+                Response.status(Response.Status.BAD_REQUEST)
+                .entity("Monto en puntos es un campo requerido en la query")
+                .build());
+        }
+
+        reglasAsignacionDAO.changeReglaEquivalencia(puntos);
+
+        return Response.ok().build();
     }
 }

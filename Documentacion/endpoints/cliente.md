@@ -36,7 +36,7 @@
             "apellido": "string",
             "numeroDocumento": 9999,
             "nacionalidad": "string",
-            "fechaNacimiento": "yyyy-mm-dd",
+            "nacimiento": "yyyy-mm-dd",
             "email": "string",
             "telefono": "string [opcional]"
         }

@@ -8,8 +8,6 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
@@ -22,10 +20,10 @@ public class Cliente {
     @Column(name = "id", updatable = false)
     private Integer idCliente;
 
-    @ManyToOne
-    @JoinColumn(name = "tipo_documento")
+    @Column(name = "tipo_documento")
+    @Basic(optional = false)
     @NotNull
-    private TipoDocumento tipoDocumento;
+    private Integer tipoDocumento;
 
     @Column(name = "nombre", length = 50)
     @Basic(optional = false)
@@ -40,7 +38,7 @@ public class Cliente {
     @Column(name = "numero_documento")
     @Basic(optional = false)
     @NotNull
-    private Integer nroDocumento;
+    private Integer numeroDocumento;
 
     @Column(name = "nacionalidad", length = 50)
     @Basic(optional = false)
@@ -66,10 +64,6 @@ public class Cliente {
         return idCliente;
     }
 
-    public TipoDocumento getTipoDocumento() {
-        return tipoDocumento;
-    }
-
     public String getNombre() {
         return nombre;
     }
@@ -78,8 +72,8 @@ public class Cliente {
         return apellido;
     }
 
-    public Integer getNroDocumento() {
-        return nroDocumento;
+    public Integer getNumeroDocumento() {
+        return numeroDocumento;
     }
 
     public String getNacionalidad() {
@@ -96,5 +90,13 @@ public class Cliente {
 
     public LocalDate getNacimiento() {
         return nacimiento;
+    }
+
+    public Integer getTipoDocumento() {
+        return tipoDocumento;
+    }
+
+    public void setTipoDocumento(Integer tipoDocumento) {
+        this.tipoDocumento = tipoDocumento;
     }
 }

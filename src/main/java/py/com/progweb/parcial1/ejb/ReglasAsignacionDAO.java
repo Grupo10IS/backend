@@ -32,4 +32,12 @@ public class ReglasAsignacionDAO {
 
         return result.get(0);
     }
+
+    public void changeReglaEquivalencia(Integer monto) {
+        Query q = this.em.createQuery(
+                "update ReglasAsignacion set montoEquivalencia = :value");
+
+        q.setParameter("value", monto);
+        q.executeUpdate();
+    }
 }

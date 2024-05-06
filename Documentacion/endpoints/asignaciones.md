@@ -8,11 +8,6 @@
         ```
 
     - _PUT_: modificar la regla de asignacion vigente.
-    inmediatamente.
-        - Body:
-            ```json
-            {
-                "montoPorPunto": 0,
-            }
-            ```
+    filtros (obligatorio):
+        - monto{integer} = monto en dolares que equivale a un punto
 
